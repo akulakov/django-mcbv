@@ -70,12 +70,16 @@ class ListRelated(DetailView, ListView):
 
 
 class DetailListCreateView(ListRelated, CreateView):
-    """DetailView of an object & listing of related objects and a form to create new related obj."""
-    success_url = '#'
-    fk_attr     = None  # modelform_obj.`fk_attr` -> detail_object
+    """ DetailView of an object & listing of related objects and a form to create new related obj.
 
-    def form_valid(self, form, modelform, _):
-        resp = super(DetailListCreateView, self).form_valid(_, modelform, _)
+        fk_attr : field of object to be created that points back to detail_object, e.g.:
+                    detail_model = Thread; fk_attr = "thread"; reply.thread = detail_object
+    """
+    success_url = '#'
+    fk_attr     = None
+
+    def modelform_valid(self, modelform):
+        resp = super(DetailListCreateView, self).modelform_valid(modelform)
         setattr(self.modelform_object, self.fk_attr, self.get_detail_object())
         return resp
 
