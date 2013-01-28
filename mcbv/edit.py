@@ -239,6 +239,9 @@ class ProcessFormView(View):
         """
         return self.get_context_data( form=self.get_form() )
 
+    def formset_get(self, request, *args, **kwargs):
+        return self.get_context_data( formset=self.get_formset() )
+
     def modelform_get(self, request, *args, **kwargs):
         """
         Handles GET requests and instantiates a blank version of the form.
@@ -301,9 +304,6 @@ class FormView(TemplateResponseMixin, BaseFormView):
 
 class BaseFormSetView(FormSetMixin, ProcessFormView):
     """A base view for displaying a form."""
-
-    def formset_get(self, request, *args, **kwargs):
-        return self.get_context_data( formset=self.get_formset() )
 
 class FormSetView(TemplateResponseMixin, BaseFormSetView):
     """A view for displaying a formset, and rendering a template response."""
