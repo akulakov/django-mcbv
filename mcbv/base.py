@@ -9,6 +9,8 @@ from django.template.response import TemplateResponse
 from django.utils.decorators import classonlymethod
 from django.utils import six
 
+__version__ = "0.3"
+
 logger = logging.getLogger('django.request')
 
 
@@ -69,7 +71,6 @@ class View(object):
             self.request = request
             self.args = args
             self.kwargs = kwargs
-            # self.initsetup()
             return self.dispatch(request, *args, **kwargs)
 
         # take name and docstring from class
@@ -80,7 +81,7 @@ class View(object):
         update_wrapper(view, cls.dispatch, assigned=())
         return view
 
-    def initsetup(self, request):
+    def initsetup(self):
         pass
 
     def dispatch(self, request, *args, **kwargs):
@@ -93,7 +94,7 @@ class View(object):
         else:
             handler = self.http_method_not_allowed
 
-        self.initsetup(request)
+        self.initsetup()
         return handler(request, *args, **kwargs)
 
     def http_method_not_allowed(self, request, *args, **kwargs):
