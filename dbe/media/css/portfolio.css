@@ -1,0 +1,211 @@
+* {
+    color: #555;
+    font-size: 0.95em;
+}
+
+/* for checkbox widgets */
+li { list-style-type:none; }
+.clear { clear: both; }
+
+.more {
+    text-decoration: none;
+    font-size: xx-large;
+    position: absolute;
+    padding-top: 40px;
+    padding-left: 20px;
+}
+
+.group { position: relative; }
+
+#menu a {
+    text-decoration: none;
+    background: #eee;
+    border-top: 1px solid #ccc;
+    border-bottom: 1px solid #ccc;
+    border-right: 2px solid #fff;
+    padding-right: 3px;
+    padding-left: 3px;
+    color: #777;
+    font-size: 0.9em;
+}
+
+#menu a:hover {
+    background: #eeebeb;
+    border-top: 1px solid #aaa;
+    border-bottom: 1px solid #aaa;
+    color: #555;
+}
+
+#container { width: 800px; border: 0px solid; }
+p { font-size: 1.1em; padding: 4px; }
+h3 { margin-right: 30px; display: inline; }
+
+
+/* group */
+.main { margin-left: 25px; margin-top: 30px; }
+.step-links a { font-size: 0.89em; }
+.messages { margin-left: 20px; }
+.pagination { margin-top: 20px; margin-left: -20px; }
+.right { text-align: right; float: right; margin: 4px; }
+.edit-thumb { float: left; }
+.edit-table { padding: 10px; padding-right: 35px; margin-left: 110px; }
+.title {
+    font-size: 1.4em; margin-top: 20px; border-bottom: 1px solid #ccc;
+    padding-left: 4px;
+}
+
+#update { width: 300px; text-align: right; }
+
+img { margin: 10px; padding: 5px; border: 1px solid #ccc; }
+td { text-align: right; }
+div.edit { border: 3px solid #eee; margin: 5px; width: 800px; }
+div.thumbnail { position: absolute; bottom: 3px; text-align: center; left: 7px; font-size: x-small; }
+div.thumbnails { position: relative; float: left; text-align: center; height: 180px; vertical-align: text-bottom; border:2px solid #eee; margin: 3px; }
+div.thumbnails2 { position: relative; float: left; text-align: center; height: 130px; vertical-align: text-bottom; border:2px solid #eee; margin: 3px; }
+td.field { text-align: left; }
+
+
+/* MAIN LISTING */
+.main { margin-left: 25px; margin-top: 30px; }
+.step-links a { font-size: 0.89em; }
+.messages { margin-left: 20px; }
+.pagination { margin-top: 20px; margin-left: -20px; }
+.errorlist li { color: #f55; font-size: small; }
+
+div.group {
+    border: 3px solid #eee;
+    -moz-border-radius: 15px;
+    border-radius: 15px;
+}
+div.header { border-bottom: 1px solid #ccc; }
+div.ltitle { font-size: 1.4em; margin-top: 5px; padding-left: 4px; }
+span.edit { font-size: 0.7em; float: right; padding-right: 15px; }
+
+img { margin: 10px; padding: 5px; border: 1px solid #ccc; }
+
+
+
+/* IMAGE */
+img { margin: 10px; padding: 5px; border: 1px solid #ccc; }
+table#update-form { margin-top: 5px; }
+table#update-form td { text-align: center; padding-left: 8px; }
+table#update-form ul { margin-left: -38px; }
+#edit-view { margin-left: 10px; margin-bottom: 10px; }
+
+form#image {
+    border: 5px solid #eee;
+    margin-top: 10px;
+    -moz-border-radius: 15px;
+    border-radius: 15px;
+    width: 725px;
+    margin: auto;
+}
+
+
+/* COPIED FROM DJANGO ADMIN */
+
+.form-row {
+    overflow: hidden;
+    padding: 8px 12px;
+    font-size: 11px;
+    border-bottom: 1px solid #eee;
+}
+
+.form-row img, .form-row input {
+    vertical-align: middle;
+}
+
+form .form-row p {
+    padding-left: 0;
+    font-size: 11px;
+}
+
+/* FORM LABELS */
+
+form h4 {
+    margin: 0 !important;
+    padding: 0 !important;
+    border: none !important;
+}
+
+label {
+    font-weight: normal !important;
+    color: #666;
+    font-size: 12px;
+}
+
+.required label, label.required {
+    font-weight: bold !important;
+    color: #333 !important;
+}
+
+.aligned label {
+    display: block;
+    padding: 3px 10px 0 0;
+    float: left;
+    width: 8em;
+}
+
+.module {
+    border: 1px solid #ccc;
+    margin-bottom: 5px;
+    background: white;
+}
+
+.module p, .module ul, .module h3, .module h4, .module dl, .module pre {
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.module blockquote {
+    margin-left: 12px;
+}
+
+.module ul, .module ol {
+    margin-left: 1.5em;
+}
+
+.module h3 {
+    margin-top: .6em;
+}
+
+.module h2, .module caption, .inline-group h2 {
+    margin: 0;
+    padding: 2px 5px 3px 5px;
+    font-size: 11px;
+    text-align: left;
+    font-weight: bold;
+    background: #7CA0C7 url(../img/admin/default-bg.gif) top left repeat-x;
+    color: white;
+}
+
+.module table {
+    border-collapse: collapse;
+}
+
+fieldset {
+    margin: 0;
+    padding: 0;
+}
+
+/* FORM DEFAULTS */
+
+input, textarea, select, .form-row p {
+    margin: 2px 0;
+    padding: 2px 3px;
+    vertical-align: middle;
+    font-family: "Lucida Grande", Verdana, Arial, sans-serif;
+    font-weight: normal;
+    font-size: 11px;
+}
+
+textarea {
+    vertical-align: top !important;
+}
+
+input[type=text], input[type=password], textarea, select, .vTextField {
+    border: 1px solid #ccc;
+}
+
+/* END / COPIED FROM DJANGO ADMIN */
+

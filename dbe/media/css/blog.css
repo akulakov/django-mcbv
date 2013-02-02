@@ -1,0 +1,52 @@
+* {
+    color: #555;
+    font-size: 0.95em;
+}
+
+#menu a {
+    text-decoration: none;
+    background: #eee;
+    border-top: 1px solid #ccc;
+    border-bottom: 1px solid #ccc;
+    border-right: 2px solid #fff;
+    padding-right: 3px;
+    padding-left: 3px;
+    color: #777;
+    font-size: 0.9em;
+}
+a:hover { background: #eeebeb; border-top: 1px solid #aaa; border-bottom: 1px solid #aaa; color: #555; }
+
+#container { margin: auto; width: 800px; border: 0px solid; }
+p { font-size: 1.1em; }
+h3 { margin-right: 30px; display: inline; }
+
+.main      { margin-left: 25px; margin-top: 30px; }
+.time      { font-size: 0.8em; margin-top: 2px; }
+.comment   { border: 1px solid #eee; padding: 4px; margin-bottom: 12px; }
+.body      { font-size: 1.1em; margin-top: 2px; }
+
+#sidebar { float: right; border: 1px dotted #ccc; padding: 4px; }
+#sidebar a { margin-left: 15px; }
+
+
+/* main blog page */
+
+.commentlink  { text-align: right; }
+.step-links a { font-size: 0.89em; }
+.messages     { margin-left: 20px; }
+.pagination   { margin-top: 5px; margin-left: -20px; }
+
+.title { font-size: 1.4em; margin-top: 20px; border-bottom: 1px solid #ccc;
+         padding-left: 4px; margin-left: 5px;
+}
+
+/* post */
+
+#cform     { background: #f5f5f5; width: 506px; padding: 4px; padding-bottom: 4px; }
+#submit    { text-align: right; margin-right: 50px; width: 500px; margin-top: -5px; }
+blockquote { margin-bottom: 30px; }
+
+#addc { width: 508px; background: #f5f5f5; padding: 3px; padding-bottom: 8px;
+        border-bottom: 1px dotted #aaa;
+      }
+

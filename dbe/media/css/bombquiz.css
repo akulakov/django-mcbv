@@ -1,0 +1,145 @@
+* {
+    color: #555;
+    font-size: 0.95em;
+    font-family: Verdana, Arial;
+}
+
+/* COPIED FROM DJANGO ADMIN */
+
+.form-row {
+    overflow: hidden;
+    padding: 8px 12px;
+    font-size: 11px;
+    border-bottom: 1px solid #eee;
+}
+
+.form-row img, .form-row input {
+    vertical-align: middle;
+}
+
+form .form-row p {
+    padding-left: 0;
+    font-size: 11px;
+}
+
+/* FORM LABELS */
+
+form h4 {
+    margin: 0 !important;
+    padding: 0 !important;
+    border: none !important;
+}
+
+label {
+    font-weight: normal !important;
+    color: #666;
+    font-size: 12px;
+}
+
+.required label, label.required {
+    font-weight: bold !important;
+    color: #333 !important;
+}
+
+.aligned label {
+    display: block;
+    padding: 3px 10px 0 0;
+    float: left;
+    width: 8em;
+}
+
+.module {
+    border: 1px solid #ccc;
+    margin-bottom: 5px;
+    background: white;
+}
+
+.module p, .module ul, .module h3, .module h4, .module dl, .module pre {
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.module blockquote {
+    margin-left: 12px;
+}
+
+.module ul, .module ol {
+    margin-left: 1.5em;
+}
+
+.module h3 {
+    margin-top: .6em;
+}
+
+.module h2, .module caption, .inline-group h2 {
+    margin: 0;
+    padding: 2px 5px 3px 5px;
+    font-size: 11px;
+    text-align: left;
+    font-weight: bold;
+    background: #7CA0C7 url(../img/admin/default-bg.gif) top left repeat-x;
+    color: white;
+}
+
+.module table {
+    border-collapse: collapse;
+}
+
+fieldset {
+    margin: 0;
+    padding: 0;
+}
+
+/* FORM DEFAULTS */
+
+input, textarea, select, .form-row p {
+    margin: 2px 0;
+    padding: 2px 3px;
+    vertical-align: middle;
+    font-family: "Lucida Grande", Verdana, Arial, sans-serif;
+    font-weight: normal;
+    font-size: 11px;
+}
+
+textarea {
+    vertical-align: top !important;
+}
+
+input[type=text], input[type=password], textarea, select, .vTextField {
+    border: 1px solid #ccc;
+}
+
+/* END / COPIED FROM DJANGO ADMIN */
+/* ----------------------------------------------------------------------------------------------- */
+
+
+p  { font-size: 1.1em; }
+h3 { margin-right: 30px; display: inline; }
+
+.main       { margin-left: 25px; margin-top: 30px; }
+#container  { margin: auto; width: 700px; border: 0px solid; }
+#submit     { text-align: right; margin-right: 50px; width: 950px; margin-top: -5px; }
+#submit-btn { float: right; width: 100px; }
+
+label.compact { border: 0px solid; width: auto; }
+
+#submit    { text-align: right; margin-right: 50px; width: 600px; margin-top: 5px; }
+blockquote { margin-bottom: 30px; }
+
+.title { font-size: 1.3em; font-weight: bold; border-bottom: 2px solid #eee; padding: 5px; }
+.edit-links { float: right; }
+
+#menu a {
+    text-decoration : none;
+    background      : #eee;
+    border-top      : 1px solid #ccc;
+    border-bottom   : 1px solid #ccc;
+    border-right    : 2px solid #fff;
+    padding-right   : 3px;
+    padding-left    : 3px;
+    color           : #777;
+    font-size       : 0.9em;
+}
+a:hover { background: #eeebeb; border-top: 1px solid #aaa; border-bottom: 1px solid #aaa; color: #555; }
+
+p.title { border-bottom: 1px solid #eee; width: 150px; }

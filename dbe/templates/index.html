@@ -1,0 +1,29 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="{{ LANGUAGE_CODE }}" xml:lang="{{ LANGUAGE_CODE }}" {% if LANGUAGE_BIDI %}dir="rtl"{% endif %}>
+<head>
+    <title>{% block title %}DBE{% endblock %}</title>
+    {% block extrastyle %}{% endblock %}
+    {% block extrahead %}{% endblock %}
+    {% block blockbots %}<meta name="robots" content="NONE,NOARCHIVE" />{% endblock %}
+</head>
+{% load i18n %}
+
+<body>
+
+<h1>DBE</h1>
+<div class="main_separator"></div>
+
+<ul>
+    <li><a href='/admin/'>admin</a></li>
+    <li><a href='/blog/'>Blog</a></li>
+    <li><a href='/bombquiz/'>Bombquiz</a></li>
+    <li><a href='/forum/'>Forum</a></li>
+    <li><a href='/admin/issues/issue/'>Issues</a></li>
+    <li><a href='/portfolio/'>Portfolio</a></li>
+    <li><a href='/questionnaires/'>Questionnaires</a></li>
+
+    <li><a href='/sb/'>SB</a></li>
+</ul>
+
+</body>
+</html>

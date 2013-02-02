@@ -1,0 +1,38 @@
+{% extends "bbase.html" %}
+
+{% block extrahead %}
+    <link rel="stylesheet" href="/media/css/blog.css" type="text/css" media="screen" charset="utf-8" />
+{% endblock %}
+
+<!-- SIDEBAR -->
+
+{% block sidebar %}
+    <div id="sidebar">
+        Monthly Archive
+        <p>
+        {% for ym in view.months %}
+            {% ifchanged ym.0 %} {{ ym.0 }} <br /> {% endifchanged %}
+            <a href="{% url 'archive_month' ym.0 ym.1 %}">{{ ym.2 }}</a> <br />
+        {% endfor %}
+        </p>
+    </div>
+{% endblock %}
+
+<!-- LIST OF POSTS -->
+
+{% block content %}
+    <div class="main">
+            {% for post in post_list %}
+                <div class="title">{{ post.title }}</div>
+                <ul>
+                    <div class="time">{{ post.created }}</div>
+                    <div class="body">{{ post.body|linebreaks }}</div>
+                    <div class="commentlink">
+                        <a href="{% url 'post' post.pk %}">Comments ({{ post.comments.count }})</a>
+                    </div>
+                </ul>
+            {% endfor %}
+
+        {% include "paginator.html" %}
+    </div>
+{% endblock %}

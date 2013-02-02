@@ -1,0 +1,107 @@
+/* main */
+
+* {
+    color: #555;
+    font-size: 0.95em;
+}
+
+#menu a {
+    text-decoration: none;
+    background: #eee;
+    border-top: 1px solid #ccc;
+    border-bottom: 1px solid #ccc;
+    border-right: 2px solid #fff;
+    padding-right: 3px;
+    padding-left: 3px;
+    color: #777;
+    font-size: 0.9em;
+}
+
+a:hover {
+    background: #eeebeb;
+    border-top: 1px solid #aaa;
+    border-bottom: 1px solid #aaa;
+    color: #555;
+}
+
+#container { margin: auto; width: 800px; border: 0px solid; }
+
+p { font-size: 1.1em; }
+h3 { margin-right: 30px; display: inline; }
+a#homelink { font-size: 1.5em; font-weight: bolder; }
+
+
+/* forum */
+
+.pagination { margin-top: 20px; margin-left: -20px; }
+.main { margin-left: 25px; margin-top: 30px; width: 700px; }
+.title { font-size: 1.4em; margin-top: 0px; padding-left: 4px; }
+tr.last td { border: 0px; }
+.title a { text-decoration: none; }
+.button { background: #ddd; color: #666; padding: 4px; text-decoration: none; float: right; }
+.buttont { background: #ddd; color: #666; padding: 4px; text-decoration: none; }
+
+td { border-bottom: 1px solid #ccc; }
+#list { border: 1px solid #ccc; width: 700px; }
+#new_topic { float: right; }
+
+
+/* list of forums */
+
+.main { margin-left: 25px; margin-top: 30px; }
+.title { font-size: 1.4em; margin-top: 10px; border-bottom: 0px solid #ccc; padding-left: 4px; }
+.last { border: 0px; }
+.title a { text-decoration: none; }
+
+td { border-bottom: 1px solid #ccc; }
+#list { border: 1px solid #ccc; width: 700px; }
+
+
+/* profile */
+
+.main { margin-left: 25px; margin-top: 30px; }
+
+#rtitle {
+    background: #eee; font-size: 1.3em; padding: 3px; margin-top: 40px;
+    padding-left: 20px; margin-bottom: -10px;
+}
+#submit { float: right; }
+
+img { margin-left: 85px; border: 1px solid #ccc; padding: 4px; }
+
+
+/* post */
+
+.main { margin-left: 25px; margin-top: 30px; }
+.last { border: 0px; }
+
+#reply { margin-top: 10px; width: 500px; }
+#body { width: 500px; height: 250px; font-size: 1.3em; }
+#submit { float: right; }
+#rtitle {
+    background: #eee; font-size: 1.3em; padding: 3px; margin-top: 40px;
+    padding-left: 20px; margin-bottom: -10px;
+}
+
+
+/* thread */
+
+.pagination { margin-top: 20px; margin-left: -20px; }
+.main { margin-left: 25px; margin-top: 30px; width: 700px; }
+.title { font-size: 1.4em; margin-top: 10px; padding-left: 0px; }
+.title a { text-decoration: none; }
+.date { font-size: 0.8em; padding-left: 5px; }
+.ppic { float: right; }
+.clear { clear: both; }
+.last { border: 0px; }
+
+.post {
+    margin: 8px; padding: 8px; border: 1px solid #ccc; margin-bottom: 14px; background: white;
+    }
+.ttitle {
+    font-style: bold; font-size: 1.6em; border-bottom: 1px solid #ccc; margin-bottom: 9px;
+    padding-left: 10px; width: 700px;
+}
+
+#list { border: 1px solid #d6cccc; width: 700px; background: #f6f6f6; }
+#back { margin: 5px; }
