@@ -1,0 +1,39 @@
+{% extends "bqbase.html" %}
+
+{% block extrahead %}
+    <SCRIPT type="text/javascript">
+        window.history.forward();
+        function noBack() { window.history.forward(); }
+    </SCRIPT>
+{% endblock %}
+{% block bodyattr %}
+onload="noBack();" onpageshow="if (event.persisted) noBack();" onunload=""
+{% endblock %}
+
+{% block content %}
+<div class="main">
+
+    {% if left %}
+        <h2>BOMB</h2> 0:{{ left }} left <h2>BOMB</h2>
+    {% endif %}
+
+    <form action="" method="POST">{% csrf_token %}
+        <fieldset class="module">
+
+        {{ form.non_field_errors }}
+        {% for fld in form %}
+            <div class="form-row">
+                <label class="{% if fld.field.required %} required {% endif %}">
+                    {{ fld.help_text }}
+                </label>
+                {{ fld }} {{ fld.errors }}
+            </div>
+        {% endfor %}
+
+        </fieldset>
+        <div id="submit"><input id="submit-btn" type="submit" value="Continue"></div>
+    </form>
+
+    {% if qnum %} <p>{{ qnum }} of {{ total }}</p> {% endif %}
+</div>
+{% endblock %}

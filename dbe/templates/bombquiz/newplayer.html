@@ -1,0 +1,23 @@
+{% extends "bqbase.html" %}
+
+{% block content %}
+<div class="main">
+
+    <form action="" method="POST">{% csrf_token %}
+        <fieldset class="module">
+
+        {{ modelform.non_field_errors }}
+        {% for fld in modelform %}
+            <div class="form-row">
+                <label class="{% if fld.field.required %} required {% endif %}">
+                    {{ fld.help_text }} {{ fld.name }}
+                </label>
+                {{ fld }} {{ fld.errors }}
+            </div>
+        {% endfor %}
+
+        </fieldset>
+        <div id="submit"><input id="submit-btn" type="submit" value="Continue"></div>
+    </form>
+</div>
+{% endblock %}
