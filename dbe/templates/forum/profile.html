@@ -1,0 +1,20 @@
+{% extends "fbase.html" %}
+
+{% block content %}
+    <div class="main">
+        <div id="rtitle">Edit Profile</div><br />
+
+        <p>
+            <form enctype="multipart/form-data" action="" method="POST"> {% csrf_token %}
+
+                {% if userprofile.avatar_image %}
+                    <p><img border="0" alt="Profile Pic" src="{{ userprofile.avatar_image }}" /></p>
+                {% endif %}
+
+                {{ modelform.avatar }}
+                <input type="submit" value="Submit" id="submit" />
+            </form>
+        </p>
+    </div>
+
+{% endblock %}

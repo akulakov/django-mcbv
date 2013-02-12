@@ -1,0 +1,32 @@
+{% extends "fbase.html" %}
+
+{% block content %}
+    <div class="main">
+
+        <div id="list">
+        <table border="0" cellpadding="4" width="100%">
+            <tr>
+                <td></td>
+                <td>Posts</td>
+                <td>Last post</td>
+                <td></td>
+            </tr>
+
+            <!-- List of forums -->
+
+            {% for forum in forum_list %}
+            <tr {% if forloop.last %}class="last"{% endif %}>
+                <td>
+                    <div class="title"><a href="{% url 'forum' dpk=forum.pk %}">{{ forum.title }}</a></div>
+                </td>
+                <td>{{ forum.num_posts }}</td>
+                <td>{{ forum.last_post.short|linebreaksbr }}</td>
+                <td><a class="button" href="{% url 'forum' dpk=forum.pk %}">VIEW</a></td>
+            </tr>
+
+            {% endfor %}
+        </div>
+
+    </div>
+
+{% endblock %}

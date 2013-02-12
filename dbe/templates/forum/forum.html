@@ -1,0 +1,40 @@
+{% extends "fbase.html" %}
+
+{% block content %}
+    <div class="main">
+
+    <a id="new_topic" class="buttont" href="{% url 'new_topic' forum.pk %}">Start New Topic</a>
+    <br /> <br />
+
+    <div id="list">
+        {% if thread_list %}
+            <table border="0" cellpadding="4" width="100%">
+              <tr>
+                  <td>Topics</td>
+                  <td>Replies</td>
+                  <td>Last post</td>
+                  <td></td>
+              </tr>
+
+              <!-- Threads  -->
+
+              {% for thread in thread_list %}
+              <tr {% if forloop.last %}class="last"{% endif %}>
+                  <td>
+                    <div class="title"><a href="{% url 'thread' thread.pk %}">{{ thread.title }}</a></div>
+                  </td>
+                  <td>{{ thread.num_replies }}</td>
+                  <td>{{ thread.last_post.short|linebreaksbr }}</td>
+                  <td><a class="button" href="{% url 'thread' thread.pk %}">VIEW</a></td>
+              </tr>
+              {% endfor %}
+
+            </table>
+        {% else %}
+            <blockquote>No threads in this forum yet..</blockquote>
+        {% endif %}
+        </div>
+
+        {% include "paginator.html" %}
+    </div>
+{% endblock %}

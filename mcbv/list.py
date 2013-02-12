@@ -112,6 +112,7 @@ class MultipleObjectMixin(ContextMixin):
         queryset            = kwargs.pop('object_list')
         page_size           = self.get_paginate_by(queryset)
         context_object_name = self.get_list_context_object_name(queryset)
+        page                = None
 
         if page_size:
             paginator, page, queryset, is_paginated = self.paginate_queryset(queryset, page_size)
@@ -119,7 +120,7 @@ class MultipleObjectMixin(ContextMixin):
                 'paginator': paginator,
                 'page_obj': page,
                 'is_paginated': is_paginated,
-                'object_list': queryset
+                'object_list': page.object_list
             }
         else:
             context = {
@@ -130,7 +131,7 @@ class MultipleObjectMixin(ContextMixin):
             }
 
         if context_object_name is not None:
-            context[context_object_name] = queryset
+            context[context_object_name] = context["object_list"]
         context.update(kwargs)
         return context
 

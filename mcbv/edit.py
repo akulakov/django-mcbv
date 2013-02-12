@@ -2,6 +2,7 @@ from django.forms import models as model_forms
 from django.core.exceptions import ImproperlyConfigured
 from django.http import HttpResponseRedirect
 from django.utils.encoding import force_text
+from django.db import models
 
 from django.utils.functional import curry
 from django.forms.formsets import formset_factory, BaseFormSet, all_valid
@@ -211,10 +212,13 @@ class ModelFormMixin(FormMixin, SingleObjectMixin):
         supplied modelform_context_object_name name.
         """
         context = {}
-        if self.modelform_object:
-            context['modelform_object'] = self.modelform_object
+        obj = self.modelform_object
+        if obj:
+            context['modelform_object'] = obj
             if self.modelform_context_object_name:
-                context[self.modelform_context_object_name] = self.modelform_object
+                context[self.modelform_context_object_name] = obj
+            elif isinstance(obj, models.Model):
+                context[obj._meta.object_name.lower()] = obj
         context.update(kwargs)
         return context
 
@@ -357,6 +361,30 @@ class UpdateView(SingleObjectTemplateResponseMixin, BaseUpdateView):
 
     def get_template_names(self):
         return self._get_template_names(self.modelform_object, self.form_model)
+
+
+class CreateUpdateView(CreateView):
+    """Update object if modelform_pk_url_kwarg is in kwargs, otherwise create it."""
+    modelform_create_class = None
+
+    def get_modelform_class(self):
+        if self.modelform_pk_url_kwarg in self.kwargs:
+            return self.modelform_class
+        else:
+            return self.modelform_create_class
+
+    def create_get(self, request, *args, **kwargs):
+        if self.modelform_pk_url_kwarg in self.kwargs:
+            self.modelform_object = self.get_modelform_object()
+            return self.modelform_get(request, *args, **kwargs)
+        else:
+            return super(CreateUpdateView, self).create_get(request, *args, **kwargs)
+
+    def create_post(self, request, *args, **kwargs):
+        if self.modelform_pk_url_kwarg in self.kwargs:
+            self.modelform_object = self.get_modelform_object()
+        else:
+            super(CreateUpdateView, self).create_post(request, *args, **kwargs)
 
 
 class DeletionMixin(object):

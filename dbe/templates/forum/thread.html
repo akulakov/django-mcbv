@@ -1,0 +1,53 @@
+{% extends "fbase.html" %}
+
+{% block content %}
+    <div class="main">
+
+        <!-- Title and backlink -->
+
+        <div class="ttitle">{{ thread.title }}</div>
+        <div id="back">
+            <a href="{% url 'forum' thread.forum.pk %}">&lt;&lt; back to list of topics</a>
+        </div>
+
+
+        <!-- Posts  -->
+
+        <div id="list">
+            {% for post in post_list %}
+                <div class="post">
+
+                    <!-- Profile pic and info -->
+
+                    <div class="ppic">
+                        {% with post.profile_data as pdata %}
+                            {% if pdata.1 %}
+                                <img src="{{ media_url }}{{ pdata.1 }}" /> <br />
+                            {% endif %}
+                        {{ post.creator }}<br />
+                        Posts: {{ pdata.0 }}<br />
+                        Joined: {{ post.creator.date_joined|date:"M d Y" }}
+                        {% endwith %}
+                    </div>
+
+                    <!-- Title, author and body -->
+
+                    <span class="title">{{ post.title }}</span><br />
+                    by {{ post.creator }} | <span class="date">{{ post.created }}</span> <br /><br />
+
+                    {{ post.body|linebreaksbr }} <br />
+                    <div class="clear"></div>
+
+                </div>
+            {% endfor %}
+        </div>
+
+        <!-- Paginator and reply link -->
+
+        {% include "paginator.html" %}
+        <br />
+        <a class="button" href="{% url 'reply' thread.pk %}">Reply</a>
+
+    </div>
+
+{% endblock %}

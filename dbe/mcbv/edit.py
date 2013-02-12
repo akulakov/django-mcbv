@@ -364,7 +364,7 @@ class UpdateView(SingleObjectTemplateResponseMixin, BaseUpdateView):
 
 
 class CreateUpdateView(CreateView):
-    """Update object if self.modelform_pk_url_kwarg is in kwargs, otherwise create it."""
+    """Update object if modelform_pk_url_kwarg is in kwargs, otherwise create it."""
     modelform_create_class = None
 
     def get_modelform_class(self):

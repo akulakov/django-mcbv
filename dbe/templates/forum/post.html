@@ -1,0 +1,13 @@
+{% extends "fbase.html" %}
+{% block content %}
+    <div class="main">
+        <div id="reply">
+        <form action="" method="POST"> {% csrf_token %}
+            <table>
+                {{ modelform.as_table }}
+            </table>
+            <input type="submit" value="Submit" />
+        </form>
+        </div>
+    </div>
+{% endblock %}

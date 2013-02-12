@@ -9,7 +9,6 @@ from django.template.response import TemplateResponse
 from django.utils.decorators import classonlymethod
 from django.utils import six
 
-__version__ = "0.3"
 
 logger = logging.getLogger('django.request')
 
@@ -69,8 +68,9 @@ class View(object):
             if hasattr(self, 'get') and not hasattr(self, 'head'):
                 self.head = self.get
             self.request = request
-            self.args = args
-            self.kwargs = kwargs
+            self.user    = request.user
+            self.args    = args
+            self.kwargs  = kwargs
             return self.dispatch(request, *args, **kwargs)
 
         # take name and docstring from class

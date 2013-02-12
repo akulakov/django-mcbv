@@ -28,7 +28,7 @@ class AKModelForm(UserModelForm):
         for name in self.fields:
             if name!="id": yield self[name]
 
-class CleanFormMixin(object):
+class ContainerFormMixin(object):
     """Wrap form data in a container."""
     def clean(self):
         return Container(**self.cleaned_data)
@@ -170,3 +170,14 @@ def float_or_none(val):
 
 def int_or_none(val):
     return int(val) if val not in ('', None) else None
+
+def getitem(iterable, index, default=None):
+    """Get item from an `iterable` at `index`, return default if index out of range."""
+    try               : return iterable[index]
+    except IndexError : return default
+
+def first(iterable, default=None):
+    try:
+        return next(iter(iterable))
+    except StopIteration:
+        return default
