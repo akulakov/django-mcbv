@@ -141,8 +141,11 @@ class FormSetMixin(FormMixin):
     def formset_valid(self, formset):
         for form in formset:
             if form.has_changed():
-                form.save()
+                self.process_form(form)
         return HttpResponseRedirect(self.get_success_url())
+
+    def process_form(self, form):
+        form.save()
 
     def formset_invalid(self, formset):
         return self.get_context_data(formset=formset)

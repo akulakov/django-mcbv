@@ -85,12 +85,9 @@ class AddIssues(FormSetView):
     extra              = 2
     template_name      = "add_issues.html"
 
-    def form_valid(self, formset):
-        for form in formset:
-            if form.has_changed():
-                form.save()
-                notify_owner(self.request, form.instance, "New Issue", self.msg_tpl)
-        return redir(self.success_url)
+    def process_form(self, form):
+        form.save()
+        notify_owner(self.request, form.instance, "New Issue", self.msg_tpl)
 
 
 def notify_owner(request, obj, title, msg_tpl, comment_body=''):
