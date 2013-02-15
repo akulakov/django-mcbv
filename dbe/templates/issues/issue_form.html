@@ -1,0 +1,24 @@
+{% extends "issbase.html" %}
+{% load issues %}
+{% block content %}
+<style type="text/css" media="screen">
+    #id_body { width: 600px; height: 250px; }
+</style>
+<div class="main">
+    <form action="" method="POST">{% csrf_token %}
+        <fieldset class="module aligned">
+
+        {% for name in modelform.fldorder %}
+            {% with modelform|get:name as fld %}
+                <div class="form-row">
+                    <label class="{% if fld.field.required %} required {% endif %}">{{ fld.label }}</label>
+                    {{ fld }}
+                </div>
+            {% endwith %}
+        {% endfor %}
+
+        </fieldset>
+        <div id="submit"><input id="submit-btn" type="submit" value="Save"></div>
+    </form>
+</div>
+{% endblock %}

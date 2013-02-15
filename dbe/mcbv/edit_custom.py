@@ -9,12 +9,10 @@ from edit import *
 
 
 class SearchFormViewMixin(BaseFormView):
-    """TODO: this view needs to be fixed."""
-    ignore_get_keys = ("page", )
+    ignore_get_keys = ("page", )    # TODO this should be ignored in search form?
 
     def get_form_kwargs(self):
         """Returns the keyword arguments for instantiating the form."""
-        print "in get_form_kwargs()"
         req    = self.request
         kwargs = dict(initial=self.get_initial())
 
@@ -25,11 +23,9 @@ class SearchFormViewMixin(BaseFormView):
             get = dict((k,v) for k,v in req.GET.items() if k not in self.ignore_get_keys)
             if get:
                 kwargs = dict(kwargs, initial=get, data=get)
-        print "kwargs", kwargs
         return kwargs
 
     def form_get(self, request):
-        print "in form_get()"
         form    = self.get_form()
         context = self.get_context_data(form=form)
 

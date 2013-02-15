@@ -1,0 +1,66 @@
+{% extends "issbase.html" %}
+
+{% block extrahead %}
+    <link rel="stylesheet" href="/media/css/issues.css" type="text/css" media="screen" charset="utf-8" />
+    <style type="text/css" media="screen">
+        #id_body { width: 520px; height: 200px; }
+    </style>
+{% endblock %}
+
+{% block content %}
+<div class="main">
+
+    <!-- ISSUE -->
+
+    <blockquote>
+        <div class="issue">
+        <div class="title">{{ issue.name }}</div>
+        <blockquote>
+            <div class="time">{{ issue.created }}
+                | <a href="{% url 'update_issue_detail' mfpk=issue.pk %}">edit</a>
+            </div>
+            <div class="body">{{ issue.body_html|safe }}</div>
+        </blockquote>
+        </div>
+
+    <!-- <p><a href="{% url 'admin:issues_issue_changelist' %}">&lt;&lt; back</a></p> -->
+
+        <!-- LIST OF COMMENTS -->
+
+        {% if comment_list %} <p>Comments:</p> {% endif %}
+
+        {% for comment in comment_list %}
+            <div class="comment">
+                <div class="time">{{ comment.created }} | {{ comment.creator }}
+                {% if request.user.is_staff %}
+                    <div class="edit-links">
+                    <a href="{% url 'update_comment' mfpk=comment.pk %}">edit</a>
+                    | <a href="{% url 'delete_comment' comment.pk %}">delete</a>
+                    </div>
+                {% endif %}
+                </div>
+                <div class="body">{{ comment.body_html|safe }}</div>
+            </div>
+        {% endfor %}
+
+        <!-- // LIST OF COMMENTS -->
+
+
+        <p>{% include "paginator.html" %}</p>
+
+        <!-- COMMENT FORM -->
+
+        <div id="addc"><b>Add a comment</b>
+        <form action="" method="POST">{% csrf_token %}
+            <div id="cform">
+                <p> {{ modelform.body }} {{ modelform.body.errors }} </p>
+            </div>
+            <div id="submit"> <input type="submit" value="Submit" /> </div>
+        </form>
+        </div>
+
+        <!-- // COMMENT FORM -->
+
+    </blockquote>
+</div>
+{% endblock %}

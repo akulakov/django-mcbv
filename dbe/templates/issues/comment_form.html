@@ -1,0 +1,16 @@
+{% extends "issbase.html" %}
+{% load todo %}
+{% block content %}
+<style type="text/css" media="screen">
+    #id_body { width: 600px; height: 450px; }
+    #container { border: none; }
+    #submit { padding-top: 8px; }
+</style>
+
+<div class="main">
+    <form action="" method="POST">{% csrf_token %}
+        {{ modelform.body }}
+        <div id="submit"><input id="submit-btn" type="submit" value="Save"></div>
+    </form>
+</div>
+{% endblock %}
