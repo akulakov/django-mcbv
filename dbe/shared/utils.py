@@ -22,7 +22,7 @@ class UserModelForm(forms.ModelForm):
         self.user = kwargs.pop("user", None)
         super(UserModelForm, self).__init__(*args, **kwargs)
 
-class AKModelForm(UserModelForm):
+class FormsetModelForm(UserModelForm):
     def __iter__(self):
         """Workaround for a bug in modelformset factory."""
         for name in self.fields:

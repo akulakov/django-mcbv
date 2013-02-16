@@ -108,6 +108,9 @@ class SingleObjectMixin(ContextMixin):
         context.update(kwargs)
         return context
 
+    def detail_absolute_url(self):
+        return self.get_detail_object().get_absolute_url()
+
 
 class BaseDetailView(SingleObjectMixin, View):
     """

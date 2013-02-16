@@ -1,0 +1,80 @@
+{% extends "rbsite.html" %}
+{% block title %}Recommendations{% endblock %}
+
+{% block content %}
+    <style type="text/css">
+        a { font-size: 1.2em; }
+        .main { margin-left: 25px; margin-top: 50px; }
+        .messages { margin-left: 20px; }
+        h3 { margin-left: 45px; }
+        td.type { border-top: 1px solid #aaa; border-bottom: 1px solid #aaa; }
+        tr.row1 { background: #f5f5f5; }
+        tr.row2 { background: #fff; }
+    </style>
+    <div class="main">
+        <h3>Recommendations</h3>
+
+    {% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+        <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+
+        <ul>
+            <table cellpadding="4" cellspacing="1">
+                {% for item in recommendations.object_list %}
+                {% ifchanged item.0 %}
+                <tr><td></td><td>&nbsp; </td></tr>
+                <tr><td class="type">{{ item.0|title }}s</td>
+                    <td class="type">Rec. score</td></tr>
+                {% endifchanged %}
+
+                    {% if item.0 == "track" %}
+                    <tr class="{% cycle "row1" "row2" %}"><td>
+                        {{ item.2.album.artists|title }} - {{ item.2.album.name|title }} -
+                            {{ item.2.name|title }}</td><td>{{ item.1 }}</td></tr>
+                    {% endif %}
+                    {% if item.0 == "album" %}
+                    <tr class="{% cycle "row1" "row2" %}">
+                        <td>{{ item.2.artists|title }} - {{ item.2.name|title }}</td>
+                            <td>{{ item.1 }}</td></tr>
+                    {% endif %}
+                    {% if item.0 == "book" %}
+                    <tr class="{% cycle "row1" "row2" %}">
+                        <td>{{ item.2.authors|title }} - {{ item.2.name|title }}</td>
+                            <td>{{ item.1 }}</td></tr>
+                    {% endif %}
+                    {% if item.0 == "film" %}
+                    <tr class="{% cycle "row1" "row2" %}">
+                        <td>{{ item.2.directors|title }} - {{ item.2.name|title }}</td>
+                            <td>{{ item.1 }}</td></tr>
+                    {% endif %}
+                {% empty %}
+                <tr><td>You don't have any recommendations yet. Please check back in a day or
+                        two.</td><td></td></tr>
+                {% endfor %}
+            </table>
+        </ul>
+
+        {% if recommendations.object_list and recommendations.paginator.num_pages > 1 %}
+        <div class="pagination" style="margin-top: 20px; margin-left: -20px; ">
+            <span class="step-links">
+                {% if recommendations.has_previous %}
+                    <a href= "?page={{ recommendations.previous_page_number }}">previous</a>
+                {% endif %}
+
+                <span class="current">
+                Page {{ recommendations.number }} of {{ recommendations.paginator.num_pages }}.
+                </span>
+
+                {% if recommendations.has_next %}
+                    <a href="?page={{ recommendations.next_page_number }}">next</a>
+                {% endif %}
+            </span>
+        </div>
+        {% endif %}
+
+    </div>
+{% endblock %}

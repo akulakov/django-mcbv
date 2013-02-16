@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+    <title>{% block title %}SaS{% endblock %}</title>
+    <link rel="stylesheet" href="/media/style.css" type="text/css" media="screen"
+      charset="utf-8" />
+
+    <style type="text/css">
+        * {
+            color: #555;
+            font-size: 0.95em;
+        }
+        .menu a {
+            text-decoration: none;
+            background: #eee;
+            border-top: 1px solid #ccc;
+            border-bottom: 1px solid #ccc;
+            border-right: 2px solid #fff;
+            padding-right: 3px;
+            padding-left: 3px;
+            color: #777;
+            font-size: 0.9em;
+        }
+        a:hover {
+            background: #eeebeb;
+            border-top: 1px solid #aaa;
+            border-bottom: 1px solid #aaa;
+            color: #555;
+        }
+        p { font-size: 1.1em; }
+    </style>
+
+</head>
+
+<body>
+    <div id="sidebar">
+        {% block sidebar %}
+        {% endblock %}
+    </div>
+    <div style="margin: auto; width: 800px;">
+    <div id="menu">
+        {% block nav-global %}{% endblock %}
+    </div>
+
+    <div id="content">
+        {% block content %}{% endblock %}
+    </div></div>
+
+</body>
+</html>
+

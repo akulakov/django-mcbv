@@ -1,0 +1,36 @@
+{% extends "ptfbase.html" %}
+
+{% block content %}
+    <div class="main">
+        {% include "messages.html" %}
+
+        <!-- Groups  -->
+        <ul>
+            {% for group in group_list %}
+                <div class="group">
+                <div class="header">
+                    <div class="ltitle">
+                    <a href="{% url 'slideshow' group.pk %}">{{ group.title }}</a> ({{ group.images.count }} slides)
+                    {% if user.is_authenticated %}
+                        <span class="edit"><a href="{{ group.get_absolute_url }}">edit</a></span>
+                    {% endif %}
+                    </div>
+                    {{ group.description }}
+                </div>
+
+                <ul class="group">
+                    {% for img in group.images.all|slice:":6" %}
+                        <a href="{{ img.get_absolute_url }}">
+                            <img border="0" alt="" src="{{ img.thumbnail2_url }}" /></a>
+                    {% endfor %}
+                    {% if group.images.count > 6 %}
+                        <a class="more" href="{{ group.get_absolute_url }}">...</a>
+                    {% endif %}
+                </ul>
+                </div>
+            {% endfor %}
+        </ul>
+
+        {% include "paginator.html" %}
+    </div>
+{% endblock %}

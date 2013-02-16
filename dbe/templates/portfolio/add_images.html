@@ -1,0 +1,40 @@
+{% extends "ptfbase.html" %}
+{% load todo %}
+
+{% block extrahead %}
+    <style type="text/css" media="screen">
+        td.itemrow { border-bottom: 3px solid #ccc; }
+        #container { width: 950px; }
+        #content { width: 1300px; }
+        .clear { clear: both; padding-bottom: 5px; }
+        .module { width: 950px; }
+    </style>
+{% endblock %}
+
+{% block content %}
+<div class="main">
+    <form action="" method="POST" enctype="multipart/form-data">{% csrf_token %}
+    <div id="submit"><input id="submit-btn" type="submit" value="Save"></div>
+    <div class="clear"></div>
+        {{ formset.management_form }}
+
+        <!-- FOR EACH FORM -->
+        {% for form in formset %}
+            <fieldset class="module aligned">
+                {{ form.id }}
+
+                <!-- FOR EACH FIELD -->
+                {% for fld in form %}
+                    <div class="form-row">
+                        <label class="{% if fld.field.required %} required {% endif %}">{{ fld.label }}</label>
+                        {{ fld }}
+                    </div>
+                {% endfor %}
+
+            </fieldset><br />
+        {% endfor %}
+
+        <div id="submit"><input id="submit-btn" type="submit" value="Save"></div>
+    </form>
+</div>
+{% endblock %}

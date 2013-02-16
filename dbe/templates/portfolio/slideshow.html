@@ -1,0 +1,160 @@
+{% extends "ptfbase.html" %}
+
+{% block extrahead %}
+    <script type="text/javascript" charset="utf-8" src="https://ajax.googleapis.com/ajax/libs/jquery/1.5.1/jquery.min.js"></script>
+    <script type="text/javascript" charset="utf-8" src="/media/js/slides.min.jquery.js"></script>
+    <script>
+      $(function(){
+        $("#slides").slides({
+            preload        : true,
+            preloadImage   : "{{ media_url }}img/loading.gif",
+            play           : 0,
+            autoHeight     : true,
+            pause          : 2500,
+            crossfade      : true,
+            hoverPause     : true,
+            slideSpeed     : 1000,
+
+            animationStart: function(current){
+                $('.caption').animate({
+                    bottom:-35
+                }, 100);
+            },
+
+            animationComplete: function(current){
+                $('.caption').animate({
+                    bottom:15
+                }, 200);
+            },
+
+            slidesLoaded: function() {
+                $('.caption').animate({
+                    bottom:15
+                }, 200);
+            },
+
+        });
+      });
+    </script>
+{% endblock %}
+
+{% block content %}
+
+    <style type="text/css" media="screen">
+        li { float: left; }
+        ul { margin-left: -30px; }
+
+        .slides_container {
+            height:570px;
+            position: relative;
+            display: none;
+          }
+
+        .slides_container div.slide {
+            height:570px;
+            width:600px;
+            display:block;
+          }
+
+        #slides .next,#slides .prev {
+            position:absolute;
+            top:350px;
+            left: 10px;
+            width:24px;
+            height:43px;
+            display:block;
+            z-index:101;
+        }
+
+        #slides .next {
+            left: 752px;
+        }
+
+        .caption {
+            z-index:500;
+            position:absolute;
+            bottom:-35px;
+            left:15px;
+            height:30px;
+            padding:5px 20px 0 20px;
+            background:#000;
+            background:rgba(0,0,0,.5);
+            width:680px;
+            font-size:1.3em;
+            line-height:1.33;
+            color:#fff;
+            border-top:1px solid #000;
+            text-shadow:none;
+        }
+
+        .caption p {
+            color: #fff;
+            padding:5px 20px 0 20px;
+            margin: 0;
+        }
+
+        .pagination {
+            margin:26px auto 0;
+            width:100px;
+        }
+
+        .pagination li {
+            float:left;
+            margin:0 1px;
+            list-style:none;
+        }
+
+        .pagination li a {
+            display:block;
+            width:12px;
+            height:0;
+            padding-top:12px;
+            background-image:url({{ media_url }}img/pagination.png);
+            background-position:0 0;
+            float:left;
+            overflow:hidden;
+        }
+
+        .pagination li.current a {
+            background-position:0 -12px;
+        }
+
+        img { border: none; }
+
+
+    </style>
+
+    <div class="main">
+        <div class="title">{{ group.title }}</div>
+
+            <!-- EDIT LINK -->
+            {% if user.is_authenticated %}
+                <div class="right"> <a href="{% url 'group' group.pk 'edit' %}">edit</a> </div>
+                <br /> <br />
+            {% endif %}
+
+            <div id="slides">
+            <div class="slides_container">
+            {% for img in image_list %}
+
+                <!-- SLIDE -->
+                <div class="slide">
+                    <a href="{{ img.image_url }}">
+                    <img border="0" alt="" src="{{ img.image_url }}"
+                            {% if img.height > 540 %} height="540" {% endif %}>
+                    </a>
+                  <div class="caption" style="bottom:0">
+                      <p>{% if img.title %} {{ img.title }} - {% endif %}{{ img.description }}</p>
+                  </div>
+                </div>
+
+            {% endfor %}
+
+            </div>
+            <a href="#" class="prev"><img src="{{ media_url }}img/arrow-prev.png" width="24" height="43" alt="Arrow Prev"></a>
+            <a href="#" class="next"><img src="{{ media_url }}img/arrow-next.png" width="24" height="43" alt="Arrow Next"></a>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
