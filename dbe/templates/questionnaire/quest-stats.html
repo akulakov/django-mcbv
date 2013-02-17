@@ -1,0 +1,32 @@
+{% extends "qbase.html" %}
+{% block content %}
+<style type="text/css" media="screen">
+    h4 { background: none; font-size: 1.3em; padding-left: 20px; margin-bottom: -10px; }
+    h5 { background: #eee; font-size: 1.2em; padding-left: 20px; }
+    #quest { border: 3px solid #eee; }
+</style>
+<div class="main">
+
+    {% for quest, sections in view.stats.items %}
+        <h4>{{ quest }}</h4>
+        <ul id="quest">
+            {% for section, questions in sections.items %}
+                <h5>{{ section }}</h5>
+                <ul>
+
+                    {% for question, answers in questions.items %}
+                        <p>{{ question }}</p>
+                        <ul>
+                            {% for answer, num in answers.items %}
+                                <p>{{ answer }} - {{ num }}</p>
+                            {% endfor %}
+                        </ul>
+                    {% endfor %}
+
+                </ul>
+            {% endfor %}
+        </ul>
+    {% endfor %}
+
+</div>
+{% endblock %}

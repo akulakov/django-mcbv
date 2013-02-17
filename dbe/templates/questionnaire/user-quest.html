@@ -1,0 +1,24 @@
+{% extends "qbase.html" %}
+{% block content %}
+
+<div class="main">
+    <table border="0" cellpadding="2" cellspacing="2">
+
+    {% for answer in userquestionnaire.answers.all %}
+
+        {% with answer.question.section.title as title %}
+            {% ifchanged title %}
+                <tr><td colspan="2"><p class="title">{{ title }}</p></td></tr>
+            {% endifchanged %}
+        {% endwith %}
+
+        <tr>
+            <td>{{ answer.question.question }}</td>
+            <td>{{ answer.answer }}</td>
+        </tr>
+
+    {% endfor %}
+
+    </table>
+</div>
+{% endblock %}

@@ -34,8 +34,8 @@ class GroupView(DetailListFormsetView):
     def add_context(self):
         return dict( show=self.kwargs.get("show", "thumbnails") )
 
-    def edit(self):
-        return self.user.is_authenticated() and self.kwargs.get("show")=="edit"
+    def process_form(self, form):
+        if self.user.is_authenticated(): form.save()
 
     def get_success_url(self):
         return "%s?%s" % (self.detail_absolute_url(), self.request.GET.urlencode()) # keep page num
@@ -61,8 +61,8 @@ class ImageView(UpdateView):
     modelform_class = ImageForm
     template_name   = "portfolio/image.html"
 
-    def edit(self):
-        return self.user.is_authenticated() and self.request.GET.get("edit")
+    def form_valid(self, form):
+        if self.user.is_authenticated(): form.save()
 
 
 def portfolio_context(request):

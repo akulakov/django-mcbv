@@ -1,0 +1,22 @@
+{% extends "qbase.html" %}
+{% load todo %}
+{% block content %}
+<div class="main">
+    <form action="" method="POST">{% csrf_token %}
+        <fieldset class="module aligned">
+
+        <!-- see note in SectionForm docstring -->
+        {% for fld in form %}
+            <div class="form-row">
+                <label class="{% if fld.field.required %} required {% endif %}">
+                    {{ fld.label }}. {{ fld.help_text }}
+                </label>
+                {{ fld }} {{ fld.errors }}
+            </div>
+        {% endfor %}
+
+        </fieldset>
+        <div id="submit"><input id="submit-btn" type="submit" value="Continue"></div>
+    </form>
+</div>
+{% endblock %}

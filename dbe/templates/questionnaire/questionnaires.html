@@ -1,0 +1,16 @@
+{% extends "qbase.html" %}
+{% block content %}
+
+<div class="main">
+    <table border="0" cellpadding="2" cellspacing="2">
+        {% for quest in questionnaire_list %}
+            <tr>
+                <td> {{ quest.name }} </td>
+                <td> <a href="{% url 'questionnaire' quest.pk %}">Take!</a> </td>
+                <td> <a href="{% url 'user_questionnaires' quest.pk %}">Results</a> </td>
+                <td> <a href="{% url 'quest_stats' quest.pk %}">Stats</a> </td>
+            </tr>
+        {% endfor %}
+    </table>
+</div>
+{% endblock %}
