@@ -9,12 +9,10 @@ from edit import *
 
 
 class SearchFormViewMixin(BaseFormView):
-    """TODO: this view needs to be fixed."""
-    ignore_get_keys = ("page", )
+    ignore_get_keys = ("page", )    # TODO this should be ignored in search form?
 
     def get_form_kwargs(self):
         """Returns the keyword arguments for instantiating the form."""
-        print "in get_form_kwargs()"
         req    = self.request
         kwargs = dict(initial=self.get_initial())
 
@@ -25,11 +23,9 @@ class SearchFormViewMixin(BaseFormView):
             get = dict((k,v) for k,v in req.GET.items() if k not in self.ignore_get_keys)
             if get:
                 kwargs = dict(kwargs, initial=get, data=get)
-        print "kwargs", kwargs
         return kwargs
 
     def form_get(self, request):
-        print "in form_get()"
         form    = self.get_form()
         context = self.get_context_data(form=form)
 
@@ -69,6 +65,27 @@ class DeleteOwnObjView(OwnObjMixin, DeleteView):
 
 class UpdateOwnObjView(OwnObjMixin, UpdateView):
     """Update object, checking that it belongs to current user."""
+
+
+class UpdateRelatedView(DetailView, UpdateView):
+    """Update object related to detail object; create if does not exist."""
+    detail_model = None
+    form_model   = None
+    fk_attr      = None
+    related_name = None
+
+    def get_modelform_object(self, queryset=None):
+        """ Get related object: detail_model.<related_name>
+            If does not exist, create: form_model.<fk_attr>
+        """
+        obj    = self.get_detail_object()
+        kwargs = {self.fk_attr: obj}
+        try:
+            related_obj = getattr(obj, self.related_name)
+        except self.form_model.DoesNotExist:
+            related_obj = self.form_model.obj.create(**kwargs)
+            setattr(obj, self.related_name, related_obj)
+        return related_obj
 
 
 class SearchEditFormset(SearchFormView):

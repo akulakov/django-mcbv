@@ -64,6 +64,9 @@ class ImageView(UpdateView):
     def form_valid(self, form):
         if self.user.is_authenticated(): form.save()
 
+    def edit(self):
+        return self.user.is_authenticated() and self.request.GET.get("edit")
+
 
 def portfolio_context(request):
     return dict(user=request.user, media_url=MEDIA_URL)

@@ -15,8 +15,8 @@
                 {% if not view.edit and user.is_authenticated %} <a href="?edit=1">edit</a> {% endif %}
             </div>
 
-            <form id="image" action="" method="post" accept-charset="utf-8">{% csrf_token %}
                 {% if view.edit %}
+            <form id="image" action="" method="post" accept-charset="utf-8">{% csrf_token %}
                 <table id="update-form">
 
                     <tr>
@@ -32,10 +32,10 @@
                     </tr>
                 </table>
                 <ul><input type="submit" value="Update" /></ul>
+            </form>
             {% else %}
                 <p>{{ image.description }}</p>
             {% endif %}
-            </form>
         </div>
 
     </div>

@@ -6,6 +6,7 @@ from django.db import models
 
 from django.utils.functional import curry
 from django.forms.formsets import formset_factory, BaseFormSet, all_valid
+from django.forms.models import modelformset_factory
 
 from base import TemplateResponseMixin, ContextMixin, View
 from detail import SingleObjectMixin, SingleObjectTemplateResponseMixin, BaseDetailView
@@ -83,13 +84,12 @@ class FormMixin(ContextMixin):
 
 class FormSetMixin(FormMixin):
     """A mixin that provides a way to show and handle a formset in a request."""
-
-    formset_model      = None
-    formset_queryset   = None
     formset_form_class = None
     formset_initial    = {}
     formset_class      = BaseFormSet
     extra              = 3
+    can_delete         = False
+
     formset_kwarg_user = False     # provide request user to form
     success_url        = None
 
@@ -103,21 +103,18 @@ class FormSetMixin(FormMixin):
         return self.formset_form_class
 
     def get_formset(self, form_class=None):
-        form_class   = form_class or self.formset_form_class
-        Formset      = formset_factory(form_class, extra=self.extra)
-        kwargs       = dict(user=self.request.user) if self.form_kwarg_user else dict()
-        Formset.form = staticmethod(curry(form_class, **kwargs))
+        form_class = form_class or self.formset_form_class
+        kwargs     = dict()
+        Formset    = formset_factory(form_class, extra=self.extra, can_delete=self.can_delete)
 
-        return Formset(**self.get_form_kwargs())
+        if self.form_kwarg_user:
+            kwargs["user"] = self.user
+
+        Formset.form = staticmethod(curry(form_class, **kwargs))
+        return Formset(**self.get_formset_kwargs())
 
     def get_formset_kwargs(self):
-        kwargs = {
-                  'initial'       : self.get_formset_initial(),
-                  'formset_form'  : self.get_formset_form_class(),
-                  'formset'       : self.get_formset_class(),
-                  'extra'         : self.extra,
-                  'formset_model' : self.formset_model,
-                  }
+        kwargs = dict(initial=self.get_formset_initial())
 
         if self.formset_kwarg_user:
             kwargs["user"] = self.request.user
@@ -141,11 +138,69 @@ class FormSetMixin(FormMixin):
     def formset_valid(self, formset):
         for form in formset:
             if form.has_changed():
-                form.save()
+                if form.cleaned_data.get("DELETE"):
+                    self.process_delete(form)
+                else:
+                    self.process_form(form)
         return HttpResponseRedirect(self.get_success_url())
+
+    def process_form(self, form):
+        form.save()
+
+    def process_delete(self, form):
+        """Process checked 'delete' box."""
+        pass
 
     def formset_invalid(self, formset):
         return self.get_context_data(formset=formset)
+
+
+class ModelFormSetMixin(FormSetMixin):
+    formset_model    = None
+    formset_queryset = None
+
+    def get_formset_queryset(self):
+        if self.formset_queryset is not None:
+            queryset = self.formset_queryset
+            if hasattr(queryset, '_clone'):
+                queryset = queryset._clone()
+        elif self.formset_model is not None:
+            queryset = self.formset_model._default_manager.all()
+        else:
+            raise ImproperlyConfigured("'%s' must define 'formset_queryset' or 'formset_model'"
+                                        % self.__class__.__name__)
+        return queryset
+
+    def get_formset(self, form_class=None):
+        form_class = form_class or self.formset_form_class
+        kwargs     = dict()
+        Formset    = modelformset_factory(self.formset_model, extra=self.extra, can_delete=self.can_delete)
+
+        if self.form_kwarg_user:
+            kwargs["user"] = self.user
+
+        Formset.form = staticmethod(curry(form_class, **kwargs))
+        return Formset(**self.get_formset_kwargs())
+
+    def get_formset_kwargs(self):
+        kwargs = {
+                  'initial'  : self.get_formset_initial(),
+                  'queryset' : self.get_formset_queryset(),
+                  }
+
+        if self.formset_kwarg_user:
+            kwargs["user"] = self.request.user
+
+        if self.request.method in ('POST', 'PUT'):
+            kwargs.update({
+                'data': self.request.POST,
+                'files': self.request.FILES,
+            })
+        return kwargs
+
+    def process_delete(self, form):
+        """Process checked 'delete' box."""
+        form.instance.delete()
 
 
 class ModelFormMixin(FormMixin, SingleObjectMixin):
@@ -200,6 +255,7 @@ class ModelFormMixin(FormMixin, SingleObjectMixin):
         return url
 
     def modelform_valid(self, modelform):
+        print "in modelform_valid()"
         self.modelform_object = modelform.save()
         return HttpResponseRedirect(self.get_success_url())
 
@@ -262,7 +318,7 @@ class ProcessFormView(View):
         if isinstance(self, FormView):
             form = self.get_form()
 
-        if isinstance(self, FormSetView):
+        if isinstance(self, (FormSetView, ModelFormSetView)):
             formset = self.get_formset()
 
         if isinstance(self, UpdateView):
@@ -277,17 +333,17 @@ class ProcessFormView(View):
            (not modelform or modelform and modelform.is_valid()) and \
            (not formset or formset and formset.is_valid()):
 
-            if isinstance(self, FormView)                 : resp = self.form_valid(form)
-            if isinstance(self, FormSetView)              : resp = self.formset_valid(formset)
-            if isinstance(self, (UpdateView, CreateView)) : resp = self.modelform_valid(modelform)
+            if isinstance(self, FormView)                        : resp = self.form_valid(form)
+            if isinstance(self, (FormSetView, ModelFormSetView)) : resp = self.formset_valid(formset)
+            if isinstance(self, (UpdateView, CreateView))        : resp = self.modelform_valid(modelform)
             return resp
 
         else:
             context = self.get_context_data()
             update  = context.update
-            if isinstance(self, FormView)                 : update(self.form_invalid(form))
-            if isinstance(self, FormSetView)              : update(self.formset_invalid(formset))
-            if isinstance(self, (UpdateView, CreateView)) : update(self.modelform_invalid(modelform))
+            if isinstance(self, FormView)                        : update(self.form_invalid(form))
+            if isinstance(self, (FormSetView, ModelFormSetView)) : update(self.formset_invalid(formset))
+            if isinstance(self, (UpdateView, CreateView))        : update(self.modelform_invalid(modelform))
             return self.render_to_response(context)
 
     # PUT is a valid HTTP verb for creating (with a known URL) or editing an
@@ -297,20 +353,24 @@ class ProcessFormView(View):
 
 
 class BaseFormView(FormMixin, ProcessFormView):
-    """
-    A base view for displaying a form
-    """
+    """ A base view for displaying a form """
 
 class FormView(TemplateResponseMixin, BaseFormView):
-    """
-    A view for displaying a form, and rendering a template response.
-    """
+    """ A view for displaying a form, and rendering a template response. """
 
 class BaseFormSetView(FormSetMixin, ProcessFormView):
-    """A base view for displaying a form."""
+    """A base view for displaying a formset."""
 
 class FormSetView(TemplateResponseMixin, BaseFormSetView):
     """A view for displaying a formset, and rendering a template response."""
+
+
+class BaseModelFormSetView(ModelFormSetMixin, ProcessFormView):
+    """A base view for displaying a modelformset."""
+
+class ModelFormSetView(TemplateResponseMixin, BaseModelFormSetView):
+    """A view for displaying a modelformset, and rendering a template response."""
+
 
 
 class BaseCreateView(ModelFormMixin, ProcessFormView):

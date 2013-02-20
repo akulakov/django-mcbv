@@ -159,19 +159,19 @@ class TemplateResponseMixin(object):
 
     def get(self, request, *args, **kwargs):
         from detail import DetailView
-        from edit import FormView, FormSetView, CreateView, UpdateView
+        from edit import FormView, FormSetView, ModelFormSetView, CreateView, UpdateView
         from list import ListView
 
         args    = [request] + list(args)
         context = dict()
         update  = context.update
 
-        if isinstance(self, DetailView)  : update( self.detail_get(*args, **kwargs) )
-        if isinstance(self, FormView)    : update( self.form_get(*args, **kwargs) )
-        if isinstance(self, FormSetView) : update( self.formset_get(*args, **kwargs) )
-        if isinstance(self, CreateView)  : update( self.create_get(*args, **kwargs) )
-        if isinstance(self, UpdateView)  : update( self.update_get(*args, **kwargs) )
-        if isinstance(self, ListView)    : update( self.list_get(*args, **kwargs) )
+        if isinstance(self, DetailView)                      : update( self.detail_get(*args, **kwargs) )
+        if isinstance(self, FormView)                        : update( self.form_get(*args, **kwargs) )
+        if isinstance(self, (FormSetView, ModelFormSetView)) : update( self.formset_get(*args, **kwargs) )
+        if isinstance(self, CreateView)                      : update( self.create_get(*args, **kwargs) )
+        if isinstance(self, UpdateView)                      : update( self.update_get(*args, **kwargs) )
+        if isinstance(self, ListView)                        : update( self.list_get(*args, **kwargs) )
 
         update(self.get_context_data(**kwargs))
         return self.render_to_response(context)
