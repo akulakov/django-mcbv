@@ -10,8 +10,8 @@ from django.forms.formsets import formset_factory, BaseFormSet, all_valid
 from django.forms.models import modelformset_factory
 
 from base import TemplateResponseMixin, ContextMixin, View
-from detail import SingleObjectMixin, SingleObjectTemplateResponseMixin, BaseDetailView
-from list import MultipleObjectMixin
+from detail import SingleObjectMixin, SingleObjectTemplateResponseMixin, BaseDetailView, DetailView
+from list import MultipleObjectMixin, ListView
 
 
 class FormMixin(ContextMixin):
@@ -320,10 +320,10 @@ class ProcessFormView(View):
         """
         form = formset = modelform = None
 
-        if isinstance(self, SingleObjectMixin):
+        if isinstance(self, DetailView):
             self.detail_object = self.get_detail_object()
 
-        if isinstance(self, MultipleObjectMixin):
+        if isinstance(self, ListView):
             self.object_list = self.get_list_queryset()
 
         if isinstance(self, FormView):
