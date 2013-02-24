@@ -4,7 +4,7 @@ from settings import MEDIA_URL
 
 from dbe.mcbv.detail import DetailView
 from dbe.mcbv.list import ListView
-from dbe.mcbv.list_custom import ListRelated, DetailListFormsetView
+from dbe.mcbv.list_custom import ListRelated, DetailListFormSetView
 from dbe.mcbv.edit_custom import FormSetView, UpdateView
 
 from dbe.shared.utils import *
@@ -22,7 +22,7 @@ class SlideshowView(ListRelated):
     template_name = "slideshow.html"
 
 
-class GroupView(DetailListFormsetView):
+class GroupView(DetailListFormSetView):
     """List of images in an group, optionally with a formset to update image data."""
     detail_model       = Group
     formset_model      = Image

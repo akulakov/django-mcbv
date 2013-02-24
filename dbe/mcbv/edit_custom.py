@@ -30,9 +30,7 @@ class SearchFormViewMixin(BaseFormView):
         context = self.get_context_data(form=form)
 
         if self.request.GET:
-            if form.is_valid() :
-                print "form is valid"
-                context.update(self.form_valid(form))
+            if form.is_valid() : context.update(self.form_valid(form))
             else               : context.update(self.form_invalid(form))
         return context
 

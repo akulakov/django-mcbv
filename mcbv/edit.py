@@ -3,6 +3,7 @@ from django.core.exceptions import ImproperlyConfigured
 from django.http import HttpResponseRedirect
 from django.utils.encoding import force_text
 from django.db import models
+from django.contrib import messages
 
 from django.utils.functional import curry
 from django.forms.formsets import formset_factory, BaseFormSet, all_valid
@@ -10,6 +11,7 @@ from django.forms.models import modelformset_factory
 
 from base import TemplateResponseMixin, ContextMixin, View
 from detail import SingleObjectMixin, SingleObjectTemplateResponseMixin, BaseDetailView
+from list import MultipleObjectMixin
 
 
 class FormMixin(ContextMixin):
@@ -87,10 +89,11 @@ class FormSetMixin(FormMixin):
     formset_form_class = None
     formset_initial    = {}
     formset_class      = BaseFormSet
-    extra              = 3
+    extra              = 0
     can_delete         = False
+    # ignore_get_args    = ("page", )     # TODO this may be better moved to the form class?
 
-    formset_kwarg_user = False     # provide request user to form
+    formset_kwarg_user = False       # provide request user to form
     success_url        = None
 
     def get_formset_initial(self):
@@ -212,6 +215,7 @@ class ModelFormMixin(FormMixin, SingleObjectMixin):
     modelform_queryset            = None
     modelform_context_object_name = None
     modelform_pk_url_kwarg        = 'mfpk'
+    modelform_valid_msg           = None
 
     def get_modelform_class(self):
         """Returns the form class to use in this view."""
@@ -255,8 +259,9 @@ class ModelFormMixin(FormMixin, SingleObjectMixin):
         return url
 
     def modelform_valid(self, modelform):
-        print "in modelform_valid()"
         self.modelform_object = modelform.save()
+        if self.modelform_valid_msg:
+            messages.info(self.request, self.modelform_valid_msg)
         return HttpResponseRedirect(self.get_success_url())
 
     def modelform_invalid(self, modelform):
@@ -314,6 +319,12 @@ class ProcessFormView(View):
         POST variables and then checked for validity.
         """
         form = formset = modelform = None
+
+        if isinstance(self, SingleObjectMixin):
+            self.detail_object = self.get_detail_object()
+
+        if isinstance(self, MultipleObjectMixin):
+            self.object_list = self.get_list_queryset()
 
         if isinstance(self, FormView):
             form = self.get_form()

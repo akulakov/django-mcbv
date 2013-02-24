@@ -87,7 +87,7 @@ class DetailListCreateView(ListRelated, CreateView):
         return HttpResponseRedirect(self.get_success_url())
 
 
-class DetailListFormsetView(ListRelated, FormSetView):
+class DetailListFormSetView(ListRelated, ModelFormSetView):
     """ List of items related to main item, viewed as a paginated formset.
         Note: `list_model` needs to have ordering specified for it to be able to paginate.
     """
@@ -98,16 +98,32 @@ class DetailListFormsetView(ListRelated, FormSetView):
     detail_context_object_name = None
     formset_form_class         = None
     paginate_by                = None
-    template_name              = None
     main_object                = None  # should be left as None in subclass
+    extra                      = 0
+    template_name              = None
 
-    def get_formset(self, form_class=None):
-        Formset   = modelformset_factory(self.formset_model, form=self.formset_form_class, extra=0)
-        qs        = self.get_list_queryset()
-        page_size = self.get_paginate_by(qs)
-        request   = self.request
-        if page_size:
-            qs = self.paginate_queryset(qs, page_size)[2]
+    def get_formset_queryset(self):
+        qset      = self.get_list_queryset()
+        page_size = self.get_paginate_by(qset)
+        if page_size : return self.paginate_queryset(qset, page_size)[2]
+        else         : return qset
 
-        if request.method=="POST" : return Formset(request.POST, queryset=qs)
-        else                      : return Formset(queryset=qs)
+
+class PaginatedModelFormSetView(ListView, ModelFormSetView):
+    detail_model               = None
+    list_model                 = None
+    formset_model              = None
+    related_name               = None
+    detail_context_object_name = None
+    formset_form_class         = None
+    paginate_by                = None
+    main_object                = None  # should be left as None in subclass
+    extra                      = 0
+    template_name              = None
+
+    def get_formset_queryset(self):
+        # qset      = super(PaginatedModelFormSetView, self).get_formset_queryset()
+        qset      = self.get_list_queryset()
+        page_size = self.get_paginate_by(qset)
+        if page_size : return self.paginate_queryset(qset, page_size)[2]
+        else         : return qset
