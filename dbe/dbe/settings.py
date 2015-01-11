@@ -24,6 +24,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'shared',
     'issues',
+    'blog',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -37,9 +38,10 @@ MIDDLEWARE_CLASSES = (
 )
 
 TEMPLATE_DIRS = (
-                 os.path.join(BASE_DIR, "templates"),
-                 os.path.join(BASE_DIR, "templates", "issues"),
-                 )
+     os.path.join(BASE_DIR, "templates"),
+     os.path.join(BASE_DIR, "templates", "issues"),
+     os.path.join(BASE_DIR, "templates", "blog"),
+     )
 
 ROOT_URLCONF = 'dbe.urls'
 

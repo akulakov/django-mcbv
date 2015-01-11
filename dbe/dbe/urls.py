@@ -8,5 +8,6 @@ urlpatterns = patterns('',
     # url(r'^$', 'dbe.views.home', name='home'),
 
     url(r'^issues/', include('issues.urls')),
+    url(r'^blog/', include('blog.urls')),
     url(r'^admin/', include(admin.site.urls)),
 ) + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

@@ -3,11 +3,11 @@ from django.contrib.auth.models import User
 from django.contrib import admin
 from django.core.mail import send_mail
 
-from dbe.shared.utils import *
+from shared.utils import *
 
 notify = False
 
-class Post(BaseModel):
+class BlogPost(BaseModel):
     title   = CharField(max_length=60)
     body    = TextField()
     created = DateTimeField(auto_now_add=True)
@@ -19,10 +19,10 @@ class Post(BaseModel):
         return self.title
 
 
-class Comment(BaseModel):
+class BlogComment(BaseModel):
     author  = CharField(max_length=60, blank=True)
     body    = TextField()
-    post    = ForeignKey(Post, related_name="comments",  blank=True, null=True)
+    post    = ForeignKey(BlogPost, related_name="comments",  blank=True, null=True)
     created = DateTimeField(auto_now_add=True)
 
     def __unicode__(self):
@@ -37,4 +37,4 @@ class Comment(BaseModel):
             recipient_list = ["myemail@mydomain.com"]
 
             send_mail("New comment added", message, from_addr, recipient_list)
-        super(Comment, self).save(*args, **kwargs)
+        super(BlogComment, self).save(*args, **kwargs)

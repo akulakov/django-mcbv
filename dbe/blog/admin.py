@@ -1,5 +1,5 @@
 from django.contrib import admin
-from dbe.blog.models import *
+from blog.models import *
 
 
 class PostAdmin(admin.ModelAdmin):
@@ -9,5 +9,5 @@ class PostAdmin(admin.ModelAdmin):
 class CommentAdmin(admin.ModelAdmin):
     display_fields = "post author created".split()
 
-admin.site.register(Post, PostAdmin)
-admin.site.register(Comment, CommentAdmin)
+admin.site.register(BlogPost, PostAdmin)
+admin.site.register(BlogComment, CommentAdmin)

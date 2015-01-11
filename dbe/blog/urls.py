@@ -1,6 +1,6 @@
-from django.conf.urls.defaults import *
-from dbe.blog.models import *
-from dbe.blog.views import PostView, Main, ArchiveMonth
+from django.conf.urls import *
+from blog.models import *
+from blog.views import PostView, Main, ArchiveMonth
 
 urlpatterns = patterns("dbe.blog.views",
    (r"^post/(?P<dpk>\d+)/$"          , PostView.as_view(), {}, "post"),

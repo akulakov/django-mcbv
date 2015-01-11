@@ -1,9 +1,9 @@
 from django.forms import *
-from dbe.blog.models import *
+from blog.models import *
 
 class CommentForm(ModelForm):
     class Meta:
-        model = Comment
+        model = BlogComment
         exclude = ["post"]
 
     def clean_author(self):
