@@ -2,15 +2,15 @@
 {% block content %}
     <div class="main">
 
-        <div class="title">{{ post.title }}</div>
+        <div class="title">{{ blogpost.title }}</div>
         <ul>
-            <div class="time">{{ post.created }}</div>
-            <div class="body">{{ post.body|linebreaks }}</div>
+            <div class="time">{{ blogpost.created }}</div>
+            <div class="body">{{ blogpost.body|linebreaks }}</div>
         </ul>
 
         <hr />
 
-        {% for comment in comment_list %}
+        {% for comment in blogcomment_list %}
             <ul>
                 <div class="time">{{ comment.author }}</div>
                 <div class="body">{{ comment.body|linebreaks }}</div>
@@ -23,7 +23,7 @@
             <table>
                 {{ modelform.as_table }}
             </table>
-            <input type="submit" value="Submit" />
+            <input type="submit" value="Submit" style="margin:8px; margin-left:175px;"/>
         </form>
         </div>
     </div>
