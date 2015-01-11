@@ -1,0 +1,12 @@
+*.py[co]
+* copy.*
+.DS_Store
+*~lock.*
+*.swp
+*.swo
+*~
+run
+*sqlite3
+local_settings.py
+lancer
+old_proj_dbe

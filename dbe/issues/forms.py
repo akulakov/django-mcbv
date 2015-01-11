@@ -1,9 +1,11 @@
+import copy
+
 from django import forms as f
 from django.forms import widgets
 from django.forms.widgets import *
 from django.utils.safestring import mark_safe
 
-from dbe.issues.models import *
+from issues.models import *
 
 
 class SelectAndTextInput(widgets.MultiWidget):
@@ -87,7 +89,7 @@ class TagsSelectCreateField(SelectOrCreateField):
 
 class CommentForm(f.ModelForm):
     class Meta:
-        model   = Comment
+        model   = IssueComment
         exclude = "creator issue created body_html".split()
 
     textarea = f.Textarea( attrs=dict(cols=65, rows=18) )
@@ -112,7 +114,7 @@ class CreateIssueForm(f.ModelForm):
         values = [(0, "---")] + list(values)
         self.fields["project_"] = SelectOrCreateField(choices=values, initial=0)
 
-        values = Tag.obj.all().values_list("pk", "tag")
+        values = IssueTag.obj.all().values_list("pk", "tag")
         if values: self.fields["tags_"].set_choices(values)
 
         # set initial values
@@ -141,9 +143,9 @@ class CreateIssueForm(f.ModelForm):
         tags = data["tags_"]
         if tags:
             selected, new = tags[0], tags[1:]
-            inst.tags = [Tag.obj.get(pk=pk) for pk in selected]  # need this in case tags were deselected
+            inst.tags = [IssueTag.obj.get(pk=pk) for pk in selected]  # need this in case tags were deselected
             for tag in new:
-                inst.tags.add( Tag.obj.get_or_create(tag=tag)[0] )
+                inst.tags.add( IssueTag.obj.get_or_create(tag=tag)[0] )
 
         return data
 

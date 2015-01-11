@@ -1,5 +1,5 @@
 from django.contrib import admin
-from dbe.issues.models import *
+from issues.models import *
 
 class ProjectAdmin(admin.ModelAdmin):
     list_display = ["project"]
@@ -17,7 +17,7 @@ class IssueAdmin(admin.ModelAdmin):
     date_hierarchy = "created"
     # search_fields = ["name", "tags"]
 
-admin.site.register(Comment, CommentAdmin)
+admin.site.register(IssueComment, CommentAdmin)
 admin.site.register(Issue, IssueAdmin)
 admin.site.register(Project, ProjectAdmin)
-admin.site.register(Tag, TagsAdmin)
+admin.site.register(IssueTag, TagsAdmin)

@@ -26,10 +26,9 @@
     <!-- <p><a href="{% url 'admin:issues_issue_changelist' %}">&lt;&lt; back</a></p> -->
 
         <!-- LIST OF COMMENTS -->
+        {% if issuecomment_list %} <p>Comments:</p> {% endif %}
 
-        {% if comment_list %} <p>Comments:</p> {% endif %}
-
-        {% for comment in comment_list %}
+        {% for comment in issuecomment_list %}
             <div class="comment">
                 <div class="time">{{ comment.created }} | {{ comment.creator }}
                 {% if request.user.is_staff %}

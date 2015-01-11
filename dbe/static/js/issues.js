@@ -69,7 +69,7 @@ $(document).ready( function() {
             type: "POST",
             url: $update_url + $pk + $action_type + $action + '/',
             success: function(action) {
-                $('#' + $id).html("<img class='btn' src='/media/img/admin/icon-" + $action + ".gif' />");
+                $('#' + $id).html("<img class='btn' src='/static/img/admin/icon-" + $action + ".gif' />");
             }
         })
     });

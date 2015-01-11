@@ -5,12 +5,12 @@ from django.contrib.admin.views.decorators import staff_member_required
 from django.forms import forms
 from django.core.mail import send_mail
 
-from dbe.shared.utils import *
-from dbe.issues.models import *
-from dbe.issues.forms import *
+from shared.utils import *
+from issues.models import *
+from issues.forms import *
 
-from dbe.mcbv.edit_custom import UpdateView, FormSetView
-from dbe.mcbv.list_custom import DetailListCreateView
+from mcbv.edit_custom import UpdateView, FormSetView
+from mcbv.list_custom import DetailListCreateView
 
 
 @staff_member_required
@@ -29,7 +29,7 @@ def update_issue(request, pk, mode=None, action=None):
 
 @staff_member_required
 def delete_comment(request, pk):
-    Comment.obj.get(pk=pk).delete()
+    IssueComment.obj.get(pk=pk).delete()
     return redir(referer(request))
 
 
@@ -49,7 +49,7 @@ class UpdateIssue(UpdateView):
 
 
 class UpdateComment(UpdateView):
-    form_model      = Comment
+    form_model      = IssueComment
     modelform_class = CommentForm
     template_name   = "issues/comment_form.html"
 
@@ -59,13 +59,13 @@ class UpdateComment(UpdateView):
 
 class ViewIssue(DetailListCreateView):
     """View issue, comments and new comment form."""
-    detail_model               = Issue
-    list_model                 = Comment
-    modelform_class            = CommentForm
-    related_name               = "comments"
-    fk_attr                    = "issue"
-    msg_tpl                    = "Comment was added to the Issue '%s' <%s%s>\n\n%s"
-    template_name              = "issue.html"
+    detail_model    = Issue
+    list_model      = IssueComment
+    modelform_class = CommentForm
+    related_name    = "comments"
+    fk_attr         = "issue"
+    msg_tpl         = "Comment was added to the Issue '%s' <%s%s>\n\n%s"
+    template_name   = "issue.html"
 
     def modelform_valid(self, modelform):
         """Send notification email to the issue owner."""

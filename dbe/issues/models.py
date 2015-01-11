@@ -5,8 +5,8 @@ from django.db.models import *
 from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
 
-from settings import MEDIA_URL
-from dbe.shared.utils import *
+from settings import MEDIA_URL, STATIC_URL
+from shared.utils import *
 
 btn_tpl  = "<div class='%s' id='%s_%s'><img class='btn' src='%simg/admin/icon-%s.gif' /></div>"
 namelink = "<a href='%s'>%s</a> <a style='float:right; font-size:0.6em;' href='%s'>edit</a>"
@@ -20,7 +20,7 @@ class Project(BaseModel):
     def __unicode__(self):
         return self.project
 
-class Tag(BaseModel):
+class IssueTag(BaseModel):
     creator = ForeignKey(User, related_name="tags", blank=True, null=True)
     tag     = CharField(max_length=30)
 
@@ -42,7 +42,7 @@ class Issue(BaseModel):
     closed     = BooleanField(default=False)
     created    = DateTimeField(auto_now_add=True)
     project    = ForeignKey(Project, related_name="issues", blank=True, null=True)
-    tags       = ManyToManyField(Tag, related_name="issues", blank=True, null=True)
+    tags       = ManyToManyField(IssueTag, related_name="issues", blank=True, null=True)
 
     def get_absolute_url(self):
         return reverse2("issue", dpk=self.pk)
@@ -64,7 +64,7 @@ class Issue(BaseModel):
 
     def closed_(self):
         onoff = "on" if self.closed else "off"
-        return btn_tpl % ("toggle closed", 'd', self.pk, MEDIA_URL, onoff)
+        return btn_tpl % ("toggle closed", 'd', self.pk, STATIC_URL, onoff)
     closed_.allow_tags = True
     closed_.admin_order_field = "closed"
 
@@ -85,7 +85,7 @@ class Issue(BaseModel):
     delete_.allow_tags = True
 
 
-class Comment(BaseModel):
+class IssueComment(BaseModel):
     creator   = ForeignKey(User, related_name="comments", blank=True, null=True)
     issue     = ForeignKey(Issue, related_name="comments", blank=True, null=True)
     created   = DateTimeField(auto_now_add=True)
@@ -94,7 +94,7 @@ class Comment(BaseModel):
 
     def save(self):
         self.body_html = markdown(self.body)
-        super(Comment, self).save()
+        super(IssueComment, self).save()
 
     def __unicode__(self):
         return unicode(self.issue.name if self.issue else '') + " : " + self.body[:20]
