@@ -1,6 +1,6 @@
 from django import forms as f
-from dbe.portfolio.models import *
-from dbe.shared.utils import *
+from portfolio.models import *
+from shared.utils import *
 
 class ImageForm(FormsetModelForm):
     class Meta:

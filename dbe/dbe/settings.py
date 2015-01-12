@@ -27,6 +27,7 @@ INSTALLED_APPS = (
     'blog',
     'bombquiz',
     'forum',
+    'portfolio',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -45,6 +46,7 @@ TEMPLATE_DIRS = (
      os.path.join(BASE_DIR, "templates", "blog"),
      os.path.join(BASE_DIR, "templates", "bombquiz"),
      os.path.join(BASE_DIR, "templates", "forum"),
+     os.path.join(BASE_DIR, "templates", "portfolio"),
      )
 
 ROOT_URLCONF = 'dbe.urls'

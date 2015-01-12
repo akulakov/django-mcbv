@@ -1,5 +1,5 @@
 from django.contrib import admin
-from dbe.portfolio.models import *
+from portfolio.models import *
 
 class GroupAdmin(admin.ModelAdmin):
     search_fields = ["title"]

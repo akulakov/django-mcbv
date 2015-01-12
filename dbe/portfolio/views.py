@@ -1,13 +1,13 @@
-from dbe.portfolio.models import *
-from dbe.portfolio.forms import *
-from settings import MEDIA_URL
+from django.conf import settings
+from portfolio.models import *
+from portfolio.forms import *
 
-from dbe.mcbv.detail import DetailView
-from dbe.mcbv.list import ListView
-from dbe.mcbv.list_custom import ListRelated, DetailListFormSetView
-from dbe.mcbv.edit_custom import FormSetView, UpdateView
+from mcbv.detail import DetailView
+from mcbv.list import ListView
+from mcbv.list_custom import ListRelated, DetailListFormSetView
+from mcbv.edit_custom import FormSetView, UpdateView
 
-from dbe.shared.utils import *
+from shared.utils import *
 
 
 class Main(ListView):
@@ -69,4 +69,4 @@ class ImageView(UpdateView):
 
 
 def portfolio_context(request):
-    return dict(user=request.user, media_url=MEDIA_URL)
+    return dict(user=request.user, media_url=settings.MEDIA_URL)

@@ -1,8 +1,8 @@
-from django.conf.urls.defaults import *
-from dbe.portfolio.models import *
-from dbe.portfolio.views import *
+from django.conf.urls import *
+from portfolio.models import *
+from portfolio.views import *
 
-urlpatterns = patterns("dbe.portfolio.views",
+urlpatterns = patterns("portfolio.views",
    (r"^group/(?P<dpk>\d+)/(?P<show>\S+)/" , GroupView.as_view(), {}, "group"),
    (r"^group/(?P<dpk>\d+)/"               , GroupView.as_view(), {}, "group"),
    (r"^add-images/(?P<dpk>\d+)/"          , AddImages.as_view(), {}, "add_images"),

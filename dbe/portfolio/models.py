@@ -1,13 +1,13 @@
 import os
 from PIL import Image as PImage
-from settings import MEDIA_ROOT, MEDIA_URL
+from django.conf import settings
 from os.path import join as pjoin, basename
 from tempfile import NamedTemporaryFile
 
 from django.db.models import *
 from django.core.files import File
 
-from dbe.shared.utils import *
+from shared.utils import *
 
 link   = "<a href='%s'>%s</a>"
 imgtag = "<img border='0' alt='' src='%s' />"
@@ -17,7 +17,7 @@ class Group(BaseModel):
     title       = CharField(max_length=60)
     description = TextField(blank=True, null=True)
     link        = URLField(blank=True, null=True)
-    hidden      = BooleanField()
+    hidden      = BooleanField(default=True)
 
     def __unicode__(self):
         return self.title
@@ -27,7 +27,7 @@ class Group(BaseModel):
 
     def image_links(self):
         lst = [img.image.name for img in self.images.all()]
-        lst = [link % ( MEDIA_URL+img, basename(img) ) for img in lst]
+        lst = [link % ( settings.MEDIA_URL+img, basename(img) ) for img in lst]
         return ", ".join(lst)
     image_links.allow_tags = True
 
@@ -41,7 +41,7 @@ class Image(BaseModel):
 
     width       = IntegerField(blank=True, null=True)
     height      = IntegerField(blank=True, null=True)
-    hidden      = BooleanField()
+    hidden      = BooleanField(default=True)
     group       = ForeignKey(Group, related_name="images", blank=True)
     created     = DateTimeField(auto_now_add=True)
 
@@ -57,7 +57,7 @@ class Image(BaseModel):
     def save(self, *args, **kwargs):
         """Save image dimensions."""
         super(Image, self).save(*args, **kwargs)
-        img = PImage.open(pjoin(MEDIA_ROOT, self.image.name))
+        img = PImage.open(pjoin(settings.MEDIA_ROOT, self.image.name))
         self.width, self.height = img.size
         self.save_thumbnail(img, 1, (128,128))
         self.save_thumbnail(img, 2, (64,64))
@@ -68,7 +68,7 @@ class Image(BaseModel):
         img.thumbnail(size, PImage.ANTIALIAS)
         thumb_fn = fn + "-thumb" + str(num) + ext
         tf = NamedTemporaryFile()
-        img.save(tf.name, "JPEG")
+        img.convert("RGB").save(tf.name, "JPEG")
         thumbnail = getattr(self, "thumbnail%s" % num)
         thumbnail.save(thumb_fn, File(open(tf.name)), save=False)
         tf.close()
@@ -76,6 +76,11 @@ class Image(BaseModel):
     def size(self):
         return "%s x %s" % (self.width, self.height)
 
-    def thumbnail1_url(self) : return MEDIA_URL + self.thumbnail1.name
-    def thumbnail2_url(self) : return MEDIA_URL + self.thumbnail2.name
-    def image_url(self)      : return MEDIA_URL + self.image.name
+    def thumbnail1_url(self):
+        return settings.MEDIA_URL + self.thumbnail1.name
+
+    def thumbnail2_url(self):
+        return settings.MEDIA_URL + self.thumbnail2.name
+
+    def image_url(self):
+        return settings.MEDIA_URL + self.image.name
