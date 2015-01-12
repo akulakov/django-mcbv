@@ -3,7 +3,7 @@ from django.db.models import *
 from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
 
-from dbe.shared.utils import *
+from shared.utils import *
 
 link = "<a href='%s'>%s</a>"
 
@@ -55,7 +55,7 @@ class Section(BaseModel):
 
 
 
-class Question(BaseModel):
+class QuestQuestion(BaseModel):
     question    = CharField(max_length=200)
     choices     = CharField(max_length=500, blank=True, null=True)
     answer_type = CharField(max_length=6, choices=(("str", "str"), ("int", "int")))
@@ -70,9 +70,9 @@ class Question(BaseModel):
         return "%s: %s" % (self.section, self.question)
 
 
-class Answer(BaseModel):
+class QuestAnswer(BaseModel):
     answer             = CharField(max_length=200)
-    question           = ForeignKey(Question, related_name="answers", blank=True, null=True)
+    question           = ForeignKey(QuestQuestion, related_name="answers", blank=True, null=True)
     user_questionnaire = ForeignKey(UserQuestionnaire, related_name="answers", blank=True, null=True)
 
     def __unicode__(self):

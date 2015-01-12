@@ -1,13 +1,13 @@
 from operator import itemgetter
 from collections import OrderedDict
 
-from dbe.shared.utils import *
-from dbe.questionnaire.models import *
-from dbe.questionnaire.forms import *
+from shared.utils import *
+from questionnaire.models import *
+from questionnaire.forms import *
 
-from dbe.mcbv.detail import DetailView
-from dbe.mcbv.edit import FormView
-from dbe.mcbv.list_custom import ListView, ListRelated
+from mcbv.detail import DetailView
+from mcbv.edit import FormView
+from mcbv.list_custom import ListView, ListRelated
 
 
 class Questionnaires(ListView):
@@ -81,9 +81,11 @@ class ViewQuestionnaire(ListRelated, FormView):
 
         for order, value in form.cleaned_data.items():
             question = section.questions.get(order=int(order))
-            answer   = Answer.obj.get_or_create(user_questionnaire=uquest, question=question)[0]
+            answer   = QuestAnswer.obj.get_or_create(user_questionnaire=uquest, question=question)[0]
             answer.update(answer=value)
 
         # redirect to the next section or to 'done' page
-        if self.snum >= stotal : return redir("done")
-        else                   : return redir( quest.get_absolute_url(self.snum+1) )
+        if self.snum >= stotal:
+            return redir("done")
+        else:
+            return redir( quest.get_absolute_url(self.snum+1) )

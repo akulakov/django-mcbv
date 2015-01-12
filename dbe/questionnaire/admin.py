@@ -4,14 +4,14 @@ from django.utils.encoding import force_unicode
 from django.http import HttpResponse, HttpResponseRedirect
 from django.core.urlresolvers import reverse
 
-from dbe.questionnaire.models import *
+from questionnaire.models import *
 
 class SectionInline(admin.TabularInline):
     model = Section
     extra = 6
 
 class QuestionInline(admin.TabularInline):
-    model = Question
+    model = QuestQuestion
     extra = 4
 
 
@@ -71,5 +71,5 @@ class SectionAdmin(admin.ModelAdmin):
 admin.site.register(Questionnaire, QuestionnaireAdmin)
 admin.site.register(UserQuestionnaire, UserQuestionnaireAdmin)
 admin.site.register(Section, SectionAdmin)
-admin.site.register(Question, QuestionAdmin)
-admin.site.register(Answer, AnswerAdmin)
+admin.site.register(QuestQuestion, QuestionAdmin)
+admin.site.register(QuestAnswer, AnswerAdmin)

@@ -1,5 +1,5 @@
 from django import forms as f
-from dbe.questionnaire.models import *
+from questionnaire.models import *
 
 null_choice = [("---", "---")]
 
