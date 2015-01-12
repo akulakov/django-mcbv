@@ -1,6 +1,6 @@
 from django import forms as f
 from django.forms.widgets import RadioSelect
-from dbe.bombquiz.models import *
+from bombquiz.models import *
 
 null_choice = [("---", "---")]
 choices = [(c,c) for c in "yes no pass".split()]

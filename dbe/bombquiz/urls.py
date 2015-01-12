@@ -1,9 +1,11 @@
-from django.conf.urls.defaults import *
-from dbe.bombquiz.views import *
+from django.conf.urls import *
+# from bombquiz.views import Done, Stats, NewPlayer, QV
+from bombquiz.views import QuestionView, Done, Stats, NewPlayer
 
-urlpatterns = patterns("dbe.bombquiz.views",
-    (r"^$"          , NewPlayer.as_view(), {}, "new_player"),
+urlpatterns = patterns("bombquiz.views",
+    # (r"^question/$" , QV.as_view(), {}, "question"),
     (r"^question/$" , QuestionView.as_view(), {}, "question"),
     (r"^done/$"     , Done.as_view(), {}, "bqdone"),
     (r"^stats/$"    , Stats.as_view(), {}, "stats"),
+    (r"^$"          , NewPlayer.as_view(), {}, "new_player"),
 )

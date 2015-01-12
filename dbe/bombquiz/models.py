@@ -1,8 +1,8 @@
 from django.db.models import *
-from dbe.shared.utils import *
+from shared.utils import *
 
 
-class Question(BaseModel):
+class QuizQuestion(BaseModel):
     question = CharField(max_length=200, unique=True)
     answer   = CharField(max_length=60)
     order    = IntegerField(unique=True)
@@ -28,11 +28,11 @@ class PlayerRecord(BaseModel):
         unique_together = [["name", "email"]]
 
 
-class Answer(BaseModel):
+class QuizAnswer(BaseModel):
     answer        = CharField(max_length=60)
     player_record = ForeignKey(PlayerRecord, related_name="answers")
-    question      = ForeignKey(Question, related_name="answers")
-    correct       = BooleanField()
+    question      = ForeignKey(QuizQuestion, related_name="answers")
+    correct       = BooleanField(default=True)
 
     def __unicode__(self):
         return "%s, %s" % (self.answer, self.correct)

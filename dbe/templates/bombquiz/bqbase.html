@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
     <title>{% block title %}BombQuiz{% endblock %}</title>
-    <link rel="stylesheet" href="/media/css/quest.css" type="text/css" media="screen" charset="utf-8" />
+    <link rel="stylesheet" href="/static/css/quest.css" type="text/css" media="screen" charset="utf-8" />
     {% block extrahead %}{% endblock %}
 </head>
 
@@ -18,7 +18,7 @@
                 <h3>BombQuiz</h3>
                 <a href="{% url 'new_player' %}">Start</a>
                 <a href="{% url 'stats' %}">Stats</a>
-                <a href="{% url 'admin:bombquiz_question_changelist' %}">BombQuiz Admin</a>
+                <a href="{% url 'admin:bombquiz_quizquestion_changelist' %}">BombQuiz Admin</a>
             {% endblock %}
         </div>
 
