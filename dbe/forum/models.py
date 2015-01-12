@@ -3,8 +3,8 @@ from django.contrib.auth.models import User
 from django.contrib import admin
 from django.db.models.signals import post_save
 
-from dbe.settings import MEDIA_URL
-from dbe.shared.utils import *
+from django.conf import settings
+from shared.utils import *
 
 
 class Forum(BaseModel):
@@ -42,13 +42,20 @@ class Thread(BaseModel):
     def __unicode__(self):
         return unicode("%s - %s" % (self.creator, self.title))
 
-    def get_absolute_url(self) : return reverse2("thread", dpk=self.pk)
-    def last_post(self)        : return first(self.posts.all())
-    def num_posts(self)        : return self.posts.count()
-    def num_replies(self)      : return self.posts.count() - 1
+    def get_absolute_url(self):
+        return reverse2("thread", dpk=self.pk)
+
+    def last_post(self):
+        return first(self.posts.all())
+
+    def num_posts(self):
+        return self.posts.count()
+
+    def num_replies(self):
+        return self.posts.count() - 1
 
 
-class Post(BaseModel):
+class ForumPost(BaseModel):
     title   = CharField(max_length=60)
     created = DateTimeField(auto_now_add=True)
     creator = ForeignKey(User, blank=True, null=True)
@@ -83,4 +90,4 @@ class UserProfile(BaseModel):
         self.save()
 
     def avatar_image(self):
-        return (MEDIA_URL + self.avatar.name) if self.avatar else None
+        return (settings.MEDIA_URL + self.avatar.name) if self.avatar else None

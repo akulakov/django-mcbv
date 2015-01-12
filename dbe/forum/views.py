@@ -1,13 +1,13 @@
 # Imports {{{
 from PIL import Image as PImage
 
-from dbe.settings import MEDIA_URL
-from dbe.forum.models import *
-from dbe.shared.utils import *
+from settings import MEDIA_URL
+from forum.models import *
+from shared.utils import *
 
-from dbe.mcbv.detail import DetailView
-from dbe.mcbv.edit import CreateView, UpdateView
-from dbe.mcbv.list_custom import ListView, ListRelated
+from mcbv.detail import DetailView
+from mcbv.edit import CreateView, UpdateView
+from mcbv.list_custom import ListView, ListRelated
 
 from forms import ProfileForm, PostForm
 # }}}
@@ -24,7 +24,7 @@ class ForumView(ListRelated):
     template_name = "forum.html"
 
 class ThreadView(ListRelated):
-    list_model    = Post
+    list_model    = ForumPost
     detail_model  = Thread
     related_name  = "posts"
     template_name = "thread.html"
@@ -48,6 +48,7 @@ class EditProfile(UpdateView):
 
         # save new image to disk & resize new image
         self.modelform_object = modelform.save()
+
         if self.modelform_object.avatar:
             img = PImage.open(self.modelform_object.avatar.path)
             img.thumbnail((160,160), PImage.ANTIALIAS)
@@ -57,7 +58,7 @@ class EditProfile(UpdateView):
 
 class NewTopic(DetailView, CreateView):
     detail_model    = Forum
-    form_model      = Post
+    form_model      = ForumPost
     modelform_class = PostForm
     title           = "Start New Topic"
     template_name   = "forum/post.html"
@@ -71,7 +72,7 @@ class NewTopic(DetailView, CreateView):
         data   = modelform.cleaned_data
         thread = self.get_thread(modelform)
 
-        Post.obj.create(thread=thread, title=data.title, body=data.body, creator=self.user)
+        ForumPost.obj.create(thread=thread, title=data.title, body=data.body, creator=self.user)
         self.user.profile.increment_posts()
         return redir(self.get_success_url())
 

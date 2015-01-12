@@ -1,9 +1,9 @@
-from django.conf.urls.defaults import *
+from django.conf.urls import *
 from django.contrib.auth.decorators import login_required as LR
-from dbe.forum.models import *
-from dbe.forum.views import *
+from forum.models import *
+from forum.views import *
 
-urlpatterns = patterns("dbe.forum.views",
+urlpatterns = patterns("forum.views",
     (r"^forum/(?P<dpk>\d+)/$"             , ForumView.as_view(), {}, "forum"),
     (r"^thread/(?P<dpk>\d+)/$"            , ThreadView.as_view(), {}, "thread"),
 

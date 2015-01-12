@@ -26,6 +26,7 @@ INSTALLED_APPS = (
     'issues',
     'blog',
     'bombquiz',
+    'forum',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -43,6 +44,7 @@ TEMPLATE_DIRS = (
      os.path.join(BASE_DIR, "templates", "issues"),
      os.path.join(BASE_DIR, "templates", "blog"),
      os.path.join(BASE_DIR, "templates", "bombquiz"),
+     os.path.join(BASE_DIR, "templates", "forum"),
      )
 
 ROOT_URLCONF = 'dbe.urls'
@@ -69,6 +71,8 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.7/howto/static-files/
 
+MEDIA_URL = '/media/'
+MEDIA_ROOT = pjoin(BASE_DIR, "media")
 STATIC_URL = '/static/'
 STATICFILES_DIRS = (
                     pjoin(BASE_DIR, "static"),

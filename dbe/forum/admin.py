@@ -1,5 +1,5 @@
 from django.contrib import admin
-from dbe.forum.models import *
+from forum.models import *
 
 class ProfileAdmin(admin.ModelAdmin):
     list_display = ["user"]
@@ -26,5 +26,5 @@ post_save.connect(create_user_profile, sender=User)
 
 admin.site.register(Forum, ForumAdmin)
 admin.site.register(Thread, ThreadAdmin)
-admin.site.register(Post, PostAdmin)
+admin.site.register(ForumPost, PostAdmin)
 admin.site.register(UserProfile, ProfileAdmin)

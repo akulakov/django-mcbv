@@ -3,7 +3,7 @@ from django.test.client import Client
 from django.contrib.auth.models import User
 from django.contrib.sites.models import Site
 
-from dbe.forum.models import *
+from forum.models import *
 
 class SimpleTest(TestCase):
     def setUp(self):
@@ -13,7 +13,7 @@ class SimpleTest(TestCase):
 
         UserProfile.objects.create(user=user)
         Site.objects.create(domain="test.org", name="test.org")
-        Post.objects.create(title="post", body="body", creator=user, thread=thread)
+        ForumPost.objects.create(title="post", body="body", creator=user, thread=thread)
 
     def content_test(self, url, values):
         """Get content of url and test that each of items in `values` list is present."""
