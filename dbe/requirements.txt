@@ -1,5 +1,5 @@
 Django==1.11.29
 Markdown==2.5.2
-Pillow==2.7.0
+Pillow==6.2.2
 pytz==2014.10
 wsgiref==0.1.2
